@@ -1,0 +1,23 @@
+##############################################################################
+#            Configuration File for Literature Based Discovery
+##############################################################################
+# All the options in this file are parsed and used as parameters for
+# Literature Based Discovery
+# Options keys are in <>'s, and values follow directly after with no space. 
+# As as example, the line "<rankingMethod>ll" will set the 'rankingMethod' 
+# parameter with a value of 'll' for literature based discovery
+#
+# For parameters where no value is needed, just write the name of the
+# parameter in '<>' (e.g. '<debug>')
+
+<implicitOutputFile>/home/henryst/human_results
+
+<rankingProcedure>linkingTermCount
+#<rankingMethod>chi
+
+#<startCuis>C0043457
+<startCuis>C0086418
+
+<targetCuis>C0281209,C1564985,C0718256,C3192355,C0591076,C0718498,C0919272,C2343521,C0528175,C0592528,C0677882,C1620460,C0678120,C0279284,C0279284,C1170247,C2241692,C1320235,C2718747,C0117571,C3537584,C2948183,C1567931,C1883536,C1649231,C1996332,C1171279,C0728753,C0722264,C1176430,C1527737,C0813828,C0526563,C1174777,C0699967,C0723893,C1620426,C0529374,C0876212,C0939530,C0919274
+
+<explicitInputFile>/home/henryst/1975_2015_window8_noOrder_threshold5

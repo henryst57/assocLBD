@@ -1,0 +1,23 @@
+##############################################################################
+#            Configuration File for Literature Based Discovery
+##############################################################################
+# All the options in this file are parsed and used as parameters for
+# Literature Based Discovery
+# Options keys are in <>'s, and values follow directly after with no space. 
+# As as example, the line "<rankingMethod>ll" will set the 'rankingMethod' 
+# parameter with a value of 'll' for literature based discovery
+#
+# For parameters where no value is needed, just write the name of the
+# parameter in '<>' (e.g. '<debug>')
+
+<precisionAndRecall_explicit>
+<rankingMeasure>leftFisher
+<rankingProcedure>lta
+
+<startAcceptTypes>dsyn
+<linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
+<targetAcceptGroups>CHEM,GENE
+
+<cuiListFileName>/home/henryst/lbdData/timeSliceCuiList
+<explicitInputFile>/home/henryst/lbdData/groupedData/reg/1975_1999_window1_noOrder
+<postCutoffFileName>/home/henryst/lbdData/groupedData/reg/2000_2015_window1_noOrder
