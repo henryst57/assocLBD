@@ -1,0 +1,5 @@
+nohup: ignoring input
+DONE - rayFish AMW
+readline() on closed filehandle IN at /home/share/packages/assoc_lbd/lib//LiteratureBasedDiscovery.pm line 861.
+Use of uninitialized value $lbdOptions{"rankingProcedure"} in string eq at /home/share/packages/assoc_lbd/lib//LiteratureBasedDiscovery.pm line 94.
+Use of uninitialized value in split at /home/share/packages/assoc_lbd/lib//LiteratureBasedDiscovery.pm line 897.

@@ -42,7 +42,6 @@ my $HELP = '';      # Prints usage and exits if true.
 my %options = ();
 $options{'assocConfig'}  = '../config/association';
 $options{'interfaceConfig'} = '../config/interface';
-#$options{'lbdConfig'} = '../config/lbd';
 $options{'simConfig'} = '../config/sim';
 
 #grab all the options and set values

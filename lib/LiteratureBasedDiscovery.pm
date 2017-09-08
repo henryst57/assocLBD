@@ -855,7 +855,7 @@ sub _readConfigFile {
     my $configFileName = shift;
     
     #read in all options from the config file
-    open IN, $configFileName;
+    open IN, $configFileName or die("Error: Cannot Open LBD config file: $configFileName\n");
     my %optionsHash = ();
     my $firstChar;
     while (my $line = <IN>) {

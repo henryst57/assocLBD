@@ -10,12 +10,13 @@
 # For parameters where no value is needed, just write the name of the
 # parameter in '<>' (e.g. '<debug>')
 
-<rankingProcedure>linkingTermCount
-<implicitOutputFile>../results/window9999_ordered/miMag_ltc
+<implicitOutputFile>../results/somArg_freqAMW
+<rankingProcedure>averageMinimumWeight
+<rankingMeasure>freq
 
 <linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 <targetAcceptGroups>CHEM,GENE
 
-<startCuis>C0149931
+<startCuis>C0021665
 
-<explicitInputFile>/home/share/packages/assoc_lbd/data/1980_1984_window9999
+<explicitInputFile>/home/henryst/1960_1989_window8_noOrder
