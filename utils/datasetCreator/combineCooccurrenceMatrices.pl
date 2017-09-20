@@ -7,11 +7,30 @@ my $windowSize;
 my $dataFolder;
 
 #user input
-$dataFolder = '/home/henryst/jackData/';
-$startYear = '1911';
-$endYear = '1920';
+$dataFolder = '/home/henryst/hadoopByYear/output/';
+$startYear = '1983';
+$endYear = '1985';
 $windowSize = 8;
 &combineFiles($startYear,$endYear,$windowSize);
+
+$dataFolder = '/home/henryst/hadoopByYear/output/';
+$startYear = '1980';
+$endYear = '1984';
+$windowSize = 8;
+&combineFiles($startYear,$endYear,$windowSize);
+
+$dataFolder = '/home/henryst/hadoopByYear/output/';
+$startYear = '1960';
+$endYear = '1989';
+$windowSize = 8;
+&combineFiles($startYear,$endYear,$windowSize);
+
+$dataFolder = '/home/henryst/hadoopByYear/output/';
+$startYear = '1975';
+$endYear = '1999';
+$windowSize = 8;
+&combineFiles($startYear,$endYear,$windowSize);
+
 
 ####### Program Start ########
 sub combineFiles {

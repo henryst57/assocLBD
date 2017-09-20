@@ -11,8 +11,7 @@
 # parameter in '<>' (e.g. '<debug>')
 
 <implicitOutputFile>../results/somArg_freqMax
-<rankingProcedure>allPairs
-<rankingMeasure>freq
+<rankingProcedure>linkingTermCount
 
 <linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 <targetAcceptGroups>CHEM,GENE

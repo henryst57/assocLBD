@@ -1,18 +1,116 @@
-#
-#
-#
-#TODO all the documentation here
-#
-#
-#
+#!/usr/bin/perl
 
+=head1 NAME
+
+runDiscovery.pl This program runs literature based discovery with the 
+parameters specified in the input file. Please see samples/lbd or 
+samples/thresholding for sample input files and descriptions of parameters
+full details on what can be in an LBD input file
+
+=head1 SYNOPSIS
+
+This utility takes an lbd configuration file and outputs the results
+of lbd
+
+=head1 USAGE
+
+Usage: umls-assocation.pl [OPTIONS] LBD_CONFIG_FILE
+
+=head1 INPUT
+
+=head2 LBD_CONFIG_FILE
+
+Configuration file specifying the parameters of LBD. 
+See '../config/lbd' for an example
+
+=head1 OPTIONS
+
+Optional command line arguements
+
+=head2 General Options:
+
+Displays the quick summary of program options.
+
+=head3 --help
+
+displays help
+
+=head3 --assocConfig
+
+path to a UMLS::Association configuration file. Default location is 
+'../config/association'. Replace this file for your computer to avoid haveing
+to specify each time.
+
+=head3 --interfaceConfig
+
+path to a UMLS::Interface configuration file. Default location is 
+'../config/interface'. Replace this file for your computer to avoid haveing
+to specify each time.
+
+=head3 --debug
+
+enter debug mode
+
+=head1 OUTPUT
+
+The association between the two concepts (or terms)
+
+=head1 SYSTEM REQUIREMENTS
+
+=over
+
+=item * Perl (version 5.16.5 or better) - http://www.perl.org
+
+=item * UMLS::Interface - http://search.cpan.org/dist/UMLS-Interface
+
+=item * UMLS::Association - http://search.cpan.org/dist/UMLS-Association
+
+=back
+
+=head1 CONTACT US
+   
+  If you have any trouble installing and using assocLBD, 
+  You may contact us directly :
+    
+      Sam Henry: henryst at vcu.edu 
+
+=head1 AUTHOR
+
+ Sam Henry, Virginia Commonwealth University
+
+=head1 COPYRIGHT
+
+Copyright (c) 2017
+
+ Sam Henry, Virginia Commonwealth University 
+ henryst at vcu.edu
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to:
+
+ The Free Software Foundation, Inc.,
+ 59 Temple Place - Suite 330,
+ Boston, MA  02111-1307, USA.
+
+=cut
+
+###############################################################################
+#                               THE CODE STARTS HERE
+###############################################################################
 
 use strict;
 use warnings;
 
 use Getopt::Long;
-
-use lib '/home/share/packages/assoc_lbd/lib/'; #TODO delete this once installed
 use LiteratureBasedDiscovery;
 
 ###############################################################################
@@ -26,10 +124,8 @@ my $usage = (&showVersion)."\n"
 ."Config File OPTIONS\n"
 ."--assocConfig        path to the UMLS::Association Config File\n"
 ."--interfaceConfig    path to the UMLS::Interface Config File\n"
-."--lbdConfig          path to the LBD Config File\n"
-."--simConfig          path to the UMLS::Similarity Config File\n"
 ."\nUSAGE EXAMPLES\n"
-."TODO write a typical command that will get this to run\n";
+."perl runDiscovery ../config/lbd\n";
 ;
 
 #############################################################################
@@ -42,15 +138,12 @@ my $HELP = '';      # Prints usage and exits if true.
 my %options = ();
 $options{'assocConfig'}  = '../config/association';
 $options{'interfaceConfig'} = '../config/interface';
-$options{'simConfig'} = '../config/sim';
 
 #grab all the options and set values
 GetOptions( 'debug'             => \$DEBUG, 
             'help'              => \$HELP,
             'assocConfig=s'     => \$options{'assocConfig'},
             'interfaceConfig=s' => \$options{'interfaceConfig'},
-	    'lbdConfig=s'       => \$options{'lbdConfig'},
-            'simConfig=s'       => \$options{'simConfig'},
 );
 
 #die $usage unless $#ARGV; #<- use this if args must be provided

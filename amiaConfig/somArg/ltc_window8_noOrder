@@ -10,9 +10,8 @@
 # For parameters where no value is needed, just write the name of the
 # parameter in '<>' (e.g. '<debug>')
 
-<implicitOutputFile>../results/somArg_freqMax
-<rankingProcedure>allPairs
-<rankingMeasure>freq
+<implicitOutputFile>../results/somArg_ltc
+<rankingProcedure>linkingTermCount
 
 <linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 <targetAcceptGroups>CHEM,GENE

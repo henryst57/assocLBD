@@ -1,4 +1,29 @@
-#Library module of ranking methods for LBD
+# LBD::Rank
+#
+# Library module of ranking methods for LBD
+#
+# Copyright (c) 2017
+#
+# Sam Henry
+# henryst at vcu.edu
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to
+#
+# The Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330,
+# Boston, MA  02111-1307, USA.
+
 package Rank;
 use strict;
 use warnings;
@@ -91,7 +116,6 @@ sub scoreImplicit_ltcAssociation {
 }
 
 
-
 # scores each implicit CUI using an assocation measure. Score is the average
 # of the minimum between association score between start and linking, and
 # linking and target.
@@ -100,6 +124,16 @@ sub scoreImplicit_ltcAssociation {
 #         $implicitMatrixRef <- ref to the implicit matrix
 #         $measure <- the string of the umls association measure to use
 #         $association <- an instance of umls association
+#         $abScoresRef <- hashRef of the a to b scores used in AMW
+#                         key is the a,b cui pair (e.g. hash{'C00,C11'})
+#                         values are their score
+#
+#         Optional Input for passing in precalculated stats
+#         so that they don't have to get recalcualted each time
+#         such as in timeslicing
+#         $n1pRef <- hashRef where key is a cui, value is n1p
+#         $np1Ref <- hashRef where key is a cui, value is np1
+#         $npp <- scalar = value of npp
 # output: a hash ref of scores for each implicit key. (hash{cui} = score)
 sub scoreImplicit_averageMinimumWeight {
     #grab input
@@ -189,6 +223,15 @@ sub scoreImplicit_averageMinimumWeight {
 #         $implicitMatrixRef <- ref to the implicit matrix
 #         $measure <- the string of the umls association measure to use
 #         $association <- an instance of umls association
+#         $abScoresRef <- hashRef of the a to b scores used in AMW
+#                         key is the a,b cui pair (e.g. hash{'C00,C11'})
+#                         values are their score
+#         Optional Input for passing in precalculated stats
+#         so that they don't have to get recalcualted each time
+#         such as in timeslicing
+#         $n1pRef <- hashRef where key is a cui, value is n1p
+#         $np1Ref <- hashRef where key is a cui, value is np1
+#         $npp <- scalar = value of npp
 # output: a hash ref of scores for each implicit key. (hash{cui} = score)
 sub scoreImplicit_LTC_AMW {
     #grab the input
@@ -199,6 +242,8 @@ sub scoreImplicit_LTC_AMW {
     my $association = shift;
     my $abScoresRef = shift;
 
+    #optionally pass in stats so they don't get recalculated for
+    # multiple terms (such as with time slicing)
     my $n1pRef = shift;
     my $np1Ref = shift;
     my $nppRef = shift;
@@ -247,8 +292,12 @@ sub scoreImplicit_LTC_AMW {
     return \%ltcAMWScores;
 }
 
-
-#gets the max cosine distance score between all a terms and each cTerm 
+#TODO this is an untested method
+# gets the max cosine distance score between all a terms and each cTerm 
+# input:  $startingMatrixRef <- ref to the starting matrix
+#         $explicitMatrixRef <- ref to the explicit matrix
+#         $implicitMatrixRef <- ref to the implicit matrix
+# output: a hash ref of scores for each implicit key. (hash{cui} = score)
 sub score_cosineDistance {
     #LBD Info
     my $startingMatrixRef = shift;
@@ -307,12 +356,16 @@ sub score_cosineDistance {
     return \%scores;
 }
 
-# gets a list of A->C pairs, and sets the value as the implicit value
-# TODO more documentation
+# gets a list of A->C pairs, and sets the value as the implicit matrix value
+# input:  $startingMatrixRef <- ref to the starting matrix
+#         $implicitMatrixRef <- ref to the implicit matrix
+# output: a hash ref where keys are comma seperated cui pairs hash{'C000,C111'}
+#         and values are set to the value at that index in the implicit matrix
 sub _getACPairs {
     my $startingMatrixRef = shift;
     my $implicitMatrixRef = shift;
 
+    #generate a list of ac pairs
     my %acPairs = ();
     foreach my $keyA (keys %{$implicitMatrixRef}) {
 	foreach my $keyC (%{${$implicitMatrixRef}{$keyA}}) {
@@ -330,8 +383,6 @@ sub _getACPairs {
 # input:  $startingMatrixRef <- ref to the starting matrix
 #         $explicitMatrixRef <- ref to the explicit matrix
 #         $implicitMatrixRef <- ref to the implicit matrix
-#         $measure <- the string of the umls association measure to use
-#         $association <- an instance of umls association
 # output: a hash ref of scores for each implicit key. (hash{cui} = score)
 sub scoreImplicit_linkingTermCount {
     #LBD Info
@@ -676,8 +727,12 @@ sub getBatchAssociationScores {
 # gets NP1, N1P, and NPP for all CUIs. This is used in time-
 # slicing and makes it much faster than getting stats individually
 # for each starting term
-# input:  $matrixRef <- ref to the co-occurrence matrix
-# output: TODO
+# input:  $matrixRef <- ref to the co-occurrence matrix (the sparse matrix 
+#                       of n11 values)
+# output: \@vals <- an array ref of three values:
+#                   \%n1p - a hash ref where the key is a cui and value is n1p
+#                   \%np1 - a hash ref where the key is a cui and value is np1
+#                   $npp - a scalar of npp
 sub getAllStats {
     my $matrixRef = shift;
 

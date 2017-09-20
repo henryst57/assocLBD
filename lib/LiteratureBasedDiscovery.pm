@@ -1,14 +1,36 @@
+# LBD::LiteratureBasedDiscovery
+#
 # Primary module
 # This module contains only the top level functions. So a step by step methods
-# Filtering, everything else is in different modules.  (so just LBD for a single
-# term, and timeslicing also closed discovery 
+# Filtering, everything else is in different modules. 
 #
+# Copyright (c) 2017
+#
+# Sam Henry
+# henryst at vcu.edu
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to
+#
+# The Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330,
+# Boston, MA  02111-1307, USA.
+
 package LiteratureBasedDiscovery;
 
 use strict;
 use warnings;
 
-use lib '/home/share/packages/assoc_lbd/lib/'; #TODO remove this once installed
 use LiteratureBasedDiscovery::Discovery;
 use LiteratureBasedDiscovery::Evaluation;
 use LiteratureBasedDiscovery::Rank;
@@ -161,10 +183,6 @@ sub performLBD {
 	print "Semantic Type Filter in ".(time() - $start)."\n";
     }
     
-    #TODO delete this
-    #Discovery::outputMatrixToFile($lbdOptions{'explicitInputFile'}.'_filtered', $explicitMatrixRef);
-    #exit;
-
 #Get Implicit Connections
     $start = time();
     my $implicitMatrixRef;
@@ -226,9 +244,6 @@ sub performLBD {
 #Done
     print "DONE!\n\n";
 }
-
-
-
 
 #----------------------------------------------------------------------------
 
@@ -339,15 +354,14 @@ sub performLBD_closedDiscovery {
     print "DONE!\n\n";
 }
 
-
-
-
-
-
-
-############################################
-
-
+#NOTE, this is experimental code for using the implicit matrix as input
+# to association measures and then rank. This provides a nice method of 
+# association for implicit terms, but there are implementation problems
+# primarily memory constraints or time constraints now, because this
+# requires the entire implicit matrix be computed. This can be done, but
+# access to it is then slow. Would require a major redo of the code
+#
+=comment
 # performs LBD, but using implicit matrix ranking schemes.
 # Since the order of operations for those methods are slighly different
 # a new method has been created.
@@ -391,15 +405,14 @@ sub performLBD_implicitMatrixRanking {
 #Done
     print "DONE!\n\n";
 }
+=cut
 
 
 ##################################################
 ################ Time Slicing ####################
 ##################################################
 
-# How to copy a hash
-#my %hashCopy = %{$hashRef};
-
+#NOTE: This function isn't really tested, and is really slow right now
 # Generates precision and recall values by varying the threshold
 # of the A->B ranking measure.
 # input:  none
@@ -630,7 +643,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 #------------
 # Matrix Filtering/Thresholding
 #------------
-	#load or threshold the matrix
+    #load or threshold the matrix
     if (exists $lbdOptions{'thresholdedMatrix'}) {
 	print STDERR "loading thresholded matrix\n";
 	$explicitMatrixRef = (); #clear (for memory)
