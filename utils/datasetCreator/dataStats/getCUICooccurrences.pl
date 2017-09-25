@@ -1,8 +1,11 @@
-#gets a list of all cuis, and outputs their number of co-occurrences, and
-# their number of unique co-occurrences to file
+# A data statistics tool that gets a list of all cuis, and outputs their number
+# of co-occurrences, and their number of unique co-occurrences to file
 
 my $inputFile = '/home/henryst/lbdData/groupedData/reg/1975_1999_window8_noOrder';
 my $outputFile = '/home/henryst/lbdData/groupedData/1975_1999_window8_noOrder_stats';
+
+###################################
+###################################
 
 #open files
 open IN, $inputFile or die("ERROR: unable to open inputFile\n");

@@ -7,25 +7,7 @@ my $cuiA = 'C0021665'; #somatomedic c
 my $cuiB = 'C0003765'; #arginine
 my $matrixFileName = '/home/henryst/lbdData/groupedData/1960_1989_window8_ordered';
 my $matrixOutFileName = $matrixFileName.'_removed';
-#&removeCuiPair($cuiA, $cuiB, $matrixFileName, $matrixOutFileName);
-
-########################
-#   DELETE THIS
-########################
-$matrixFileName = '/home/henryst/lbdData/groupedData/1960_1989_window8_noOrder';
-$matrixOutFileName = $matrixFileName.'_removed';
 &removeCuiPair($cuiA, $cuiB, $matrixFileName, $matrixOutFileName);
-$matrixFileName = '/home/henryst/lbdData/groupedData/1960_1989_window9999_noOrder';
-$matrixOutFileName = $matrixFileName.'_removed';
-&removeCuiPair($cuiA, $cuiB, $matrixFileName, $matrixOutFileName);
-###
-$matrixFileName = '/home/henryst/lbdData/groupedData/1960_1989_window8_noOrder_filtered';
-$matrixOutFileName = $matrixFileName.'_removed';
-&removeCuiPair($cuiA, $cuiB, $matrixFileName, $matrixOutFileName);
-$matrixFileName = '/home/henryst/lbdData/groupedData/1960_1989_window9999_noOrder_filtered';
-$matrixOutFileName = $matrixFileName.'_removed';
-&removeCuiPair($cuiA, $cuiB, $matrixFileName, $matrixOutFileName);
-
 
 print STDERR "DONE\n";
 

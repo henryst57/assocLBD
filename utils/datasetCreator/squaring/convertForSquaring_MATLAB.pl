@@ -1,28 +1,20 @@
+# functions to convert to and from assocLBD and MATLAB sparse matrix formats
 use strict;
 use warnings;
 
-my $fileName;
-
-=comment
-$fileName = "1975_1999_window8_noOrder_threshold5_filtered";
+#convert to MATLAB sparse format
+my $fileName = "1975_1999_window8_noOrder_threshold5_filtered";
 &convertTo("/home/henryst/lbdData/groupedData/$fileName", 
 	   "/home/henryst/lbdData/groupedData/forSquaring/$fileName".'_converted', 
 	   "/home/henryst/lbdData/groupedData/forSquaring/$fileName".'_keys');
-=cut
+
+#convert from MATLAB sparse format
+$fileName = "1980_1984_window1_ordered_filtered";
+&convertFrom("/home/henryst/lbdData/groupedData/squared/$fileName".'_squared', "/home/henryst/lbdData/groupedData/squared/$fileName".'_squared_convertedBack',"/home/henryst/lbdData/groupedData/forSquaring/".$fileName.'_keys');
 
 
-$fileName = "goldMatrix";
-&convertTo("/home/henryst/lbdData/$fileName", 
-	   "/home/henryst/lbdData/$fileName".'_converted', 
-	   "/home/henryst/lbdData/$fileName".'_keys');
-
-
-
-
-#$fileName = "1980_1984_window1_ordered_filtered";
-#&convertFrom("/home/henryst/lbdData/groupedData/squared/$fileName".'_squared', "/home/henryst/lbdData/groupedData/squared/$fileName".'_squared_convertedBack',"/home/henryst/lbdData/groupedData/forSquaring/".$fileName.'_keys');
-
-
+########################################
+########################################
 
 #converts the matrix to format for squaring in MATLAB
 sub convertTo {

@@ -1,4 +1,14 @@
-#combines the co-occurrences counts for the year range specified (inclusive)
+# combines the co-occurrences counts for the year range specified (inclusive 
+# e.g. 1983-1985 will combine counts from files of 1983, 1984, and 1985 
+# co-occurrences). This file is intended to run on co-occurrence matrices 
+# created seperately for each year, and stored in a single folder. Creating
+# co-occurrence matrices in this manner is useful because it makes running
+# the CUICollector faster, and because files can be easily combined for
+# different time slicing or discovery replication results. We ran CUI Collector
+# seperately for each year of the MetaMapped MEDLINES baseline and stored each
+# co-occurrence matrix in a single folder "hadoopByYear/output/". That folder 
+# contained file named the year and window size used (e.g. 1975_window8).
+# The code may need to be modified slightly for other purposes.
 use strict;
 use warnings;
 my $startYear;
@@ -13,25 +23,8 @@ $endYear = '1985';
 $windowSize = 8;
 &combineFiles($startYear,$endYear,$windowSize);
 
-$dataFolder = '/home/henryst/hadoopByYear/output/';
-$startYear = '1980';
-$endYear = '1984';
-$windowSize = 8;
-&combineFiles($startYear,$endYear,$windowSize);
 
-$dataFolder = '/home/henryst/hadoopByYear/output/';
-$startYear = '1960';
-$endYear = '1989';
-$windowSize = 8;
-&combineFiles($startYear,$endYear,$windowSize);
-
-$dataFolder = '/home/henryst/hadoopByYear/output/';
-$startYear = '1975';
-$endYear = '1999';
-$windowSize = 8;
-&combineFiles($startYear,$endYear,$windowSize);
-
-
+#####################################################
 ####### Program Start ########
 sub combineFiles {
     my $startYear = shift;

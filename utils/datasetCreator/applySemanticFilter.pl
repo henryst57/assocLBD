@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-use lib '/home/share/packages/assoc_lbd/lib/'; #TODO remove this once installed
 use LiteratureBasedDiscovery::Discovery;
 use LiteratureBasedDiscovery::Evaluation;
 use LiteratureBasedDiscovery::Rank;
@@ -15,12 +14,10 @@ use UMLS::Interface;
 ####### User input
 my $matrixFileName = '/home/henryst/lbdData/groupedData/1975_1999_window8_noOrder_threshold5';
 my $outputFileName = $matrixFileName.'_filtered';
-my $acceptTypesString = ''; #leave blank
+my $acceptTypesString = ''; #leave blank if none are applied
 my $acceptGroupsString = 'CHEM,DISO,GENE,PHYS,ANAT'; #for the explicit matrix
-#my $acceptGroupsString = 'CHEM,GENE';  #for the implicit matrix
 my $interfaceConfig = '/home/share/packages/assoc_lbd/config/interface';
 
-#TODO, figure out why I apply to what...just  think about it
 #apply the filter to rows and columns or columns only
 # apply to just columns generally for the implicit matrix
 #   ...if the rows are just the starting terms
@@ -30,8 +27,10 @@ my $columnsOnly = 0; #apply to columns only, or rows and columns
 &applySemanticFilter($matrixFileName, $outputFileName, 
 		     $acceptTypesString, $acceptGroupsString,
 
-###################################################################
 
+
+###################################################################
+###################################################################
 
 # Applies the semantic type filter
 sub applySemanticFilter {

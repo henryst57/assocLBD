@@ -108,4 +108,4 @@
 # user must specify a non-thresholded matrix in order to properly compute 
 # predictions. The thresholded matrix file is optional, and is used only
 # for the values in ranking procedures
-<thresholdedMatrix>thresholdMatrix
+# <thresholdedMatrix>thresholdMatrix

@@ -49,6 +49,10 @@ to specify each time.
 
 enter debug mode
 
+=head3 --version
+
+display the version number
+
 =head1 OUTPUT
 
 A file containing the results of LBD
@@ -119,6 +123,7 @@ my $usage = (&showVersion)."\n"
 ."FLAGS\n"
 ."--debug       Print EVERYTHING to STDERR.\n"
 ."--help        Print this help screen.\n"
+."--version     Print the version number\n"
 ."Config File OPTIONS\n"
 ."--assocConfig        path to the UMLS::Association Config File\n"
 ."--interfaceConfig    path to the UMLS::Interface Config File\n"

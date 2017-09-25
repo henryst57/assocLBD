@@ -1,7 +1,6 @@
 #gets matrix stats for a matrix file 
 # (number of rows, number of columns, number of keys)
 
-
 &getStats('/home/henryst/lbdData/groupedData/1852_window1_squared_inParts');
 
 

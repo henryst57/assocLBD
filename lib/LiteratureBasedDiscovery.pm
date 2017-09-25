@@ -26,44 +26,68 @@
 # 59 Temple Place - Suite 330,
 # Boston, MA  02111-1307, USA.
 
-package LiteratureBasedDiscovery;
 
-use strict;
-use warnings;
+=head1 NAME
 
-use LiteratureBasedDiscovery::Discovery;
-use LiteratureBasedDiscovery::Evaluation;
-use LiteratureBasedDiscovery::Rank;
-use LiteratureBasedDiscovery::Filters;
-use LiteratureBasedDiscovery::TimeSlicing;
+assocLBD - a perl implementation of Literature Based Discovery
 
-use lib '/home/share/packages/UMLS-Association/lib/'; #TODO delete this, I shouldn't need it, but it seems UMLS-Association isnt up to date at the global level
-use UMLS::Association;
-use UMLS::Interface;
+=head1 SYNOPSIS
+    
+    use assocLBD;
+    %options = ();
+    $options{'lbdConfig'} = 'configFile'
+    my $lbd = LiteratureBasedDiscovery->new(\%options);
+    $lbd->performLBD();
 
-my $VERSION = 0.0;
-use vars qw($VERSION);
+=head1 ABSTRACT
 
-#global variables
-my $DEBUG = 0;
-my $N11_TABLE = 'N_11';
-my %lbdOptions = ();
-   #rankingProcedure <-- the procedure to use for ranking
-   #rankingMeasure <-- the association measure to use for ranking 
-   #implicitOutputFile  <--- TODO do I use this?  just the output file of results?
+      This package consists of Perl modules along with supporting Perl
+      programs that perform Literature Based Discovery (LBD). The core 
+      data from which LBD is performed are co-occurrences matrices 
+      generated from UMLS::Association. assocLBD is based on the ABC
+      co-occurrence model. Many options can be specified, and many
+      ranking methods are available. The novel ranking methods that use
+      association measure are available as well as frequency based
+      ranking methods. See samples/lbd for more info. Can perform open and
+      closed LBD as well as time slicing evaluation.
 
-   #explicitInputFile <-- load explicit from file rather than assocDB
-   #implicitInputFile <-- load implicit from file rather than calculating
+=head1 INSTALL
 
-#references to other packages
-my $umls_interface;
-my $umls_association;
-my $cuiFinder;
+To install the module, run the following magic commands:
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
+This will install the module in the standard location. You will, most
+probably, require root privileges to install in standard system
+directories. To install in a non-standard directory, specify a prefix
+during the 'perl Makefile.PL' stage as:
+
+  perl Makefile.PL PREFIX=/home/sid
+
+It is possible to modify other parameters during installation. The
+details of these can be found in the ExtUtils::MakeMaker
+documentation. However, it is highly recommended not messing around
+with other parameters, unless you know what you're doing.
+
+=head1 CONFIGURATION FILE
+
+There are many parameters that can be specified, both for open and
+close discovery as well as time slicing evaluation. Please see the 
+samples folder for info and sample configuration files.
+
+=cut
 
 
 ######################################################################
 #                          Description
 ######################################################################
+#
+# This is a description heared more towards understanding or modifying
+# the code, rather than using the program.
+#
 # LiteratureBasedDiscovery.pm - provides functionality to perform LBD
 #
 # Matrix Representation:
@@ -104,6 +128,42 @@ my $cuiFinder;
 # implicitMatrix <- A matrix containing implicit connections (discovered 
 #                   connections) for every CUI in the datast
 
+
+package LiteratureBasedDiscovery;
+
+use strict;
+use warnings;
+
+use LiteratureBasedDiscovery::Discovery;
+use LiteratureBasedDiscovery::Evaluation;
+use LiteratureBasedDiscovery::Rank;
+use LiteratureBasedDiscovery::Filters;
+use LiteratureBasedDiscovery::TimeSlicing;
+
+use UMLS::Association;
+use UMLS::Interface;
+
+my $VERSION = 0.01;
+use vars qw($VERSION);
+
+#global variables
+my $DEBUG = 0;
+my $N11_TABLE = 'N_11';
+my %lbdOptions = ();
+   #rankingProcedure <-- the procedure to use for ranking
+   #rankingMeasure <-- the association measure to use for ranking 
+   #implicitOutputFile  <--- TODO do I use this?  just the output file of results?
+
+   #explicitInputFile <-- load explicit from file rather than assocDB
+   #implicitInputFile <-- load implicit from file rather than calculating
+
+#references to other packages
+my $umls_interface;
+my $umls_association;
+my $cuiFinder;
+
+#####################################################
+####################################################
 
 # performs LBD
 # input:  none
@@ -1028,6 +1088,15 @@ sub _parametersToString {
     #interface options? TODO
 }
 
+
+# shows the version currently being used
+# input : none
+# output: the version number being used
+sub version {
+    my $self = shift;
+
+    return $VERSION;
+}
 
 ##############################################################################
 #        functions for debugging

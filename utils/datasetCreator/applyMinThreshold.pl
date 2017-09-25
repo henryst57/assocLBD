@@ -1,6 +1,8 @@
+#Applies a minimum number of co-occurrences threshold to a file by 
+#copying the $inputFile to $outputFile, but ommitting lines that have less than
+#$minThreshold number of co-occurrences
 
 my $minThreshold = 5;
-#my $inputFile = '/home/henryst/1975_2015_window8_noOrder';
 my $inputFile = '/home/henryst/1975_2015_window8_noOrder_preThresh';
 my $outputFile = '/home/henryst/1975_2015_window8_noOrder_threshold'.$minThreshold;
 &applyMinThreshold($minThreshold, $inputFile, $outputFile);
@@ -8,10 +10,6 @@ my $outputFile = '/home/henryst/1975_2015_window8_noOrder_threshold'.$minThresho
 
 ############
 
-
-#Applies a minimum number of co-occurrences threshold to a file by 
-#copying the $inputFile to $outputFile, but ommitting lines that have less than
-#$minThreshold number of co-occurrences
 sub applyMinThreshold {
     #grab the input
     my $minThreshold = shift;

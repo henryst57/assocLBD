@@ -3,6 +3,9 @@
 clear all;
 close all;
 
+%The number of rows/cols to square at a time. Larger numbers will run faster
+% but will require more ram. Lower numbers will run slower but require less ram.
+% You want this number to be as high as possible without MATLAB crashing
 increment = 40000;
 sparseSquare_sectioned('/home/henryst/lbdData/squaring/1975_1999_window8_noOrder','/home/henryst/lbdData/squaring/1975_1999_window8_noOrder_squared_secondTry',increment);
 error('DONE!');
