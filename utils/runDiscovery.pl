@@ -5,7 +5,7 @@
 runDiscovery.pl This program runs literature based discovery with the 
 parameters specified in the input file. Please see samples/lbd or 
 samples/thresholding for sample input files and descriptions of parameters
-full details on what can be in an LBD input file
+and full details on what can be in an LBD input file.
 
 =head1 SYNOPSIS
 
@@ -29,22 +29,20 @@ Optional command line arguements
 
 =head2 General Options:
 
-Displays the quick summary of program options.
-
 =head3 --help
 
-displays help
+displays help, a quick summary of program options
 
 =head3 --assocConfig
 
 path to a UMLS::Association configuration file. Default location is 
-'../config/association'. Replace this file for your computer to avoid haveing
+'../config/association'. Replace this file for your computer to avoid having
 to specify each time.
 
 =head3 --interfaceConfig
 
 path to a UMLS::Interface configuration file. Default location is 
-'../config/interface'. Replace this file for your computer to avoid haveing
+'../config/interface'. Replace this file for your computer to avoid having
 to specify each time.
 
 =head3 --debug
@@ -53,7 +51,7 @@ enter debug mode
 
 =head1 OUTPUT
 
-The association between the two concepts (or terms)
+A file containing the results of LBD
 
 =head1 SYSTEM REQUIREMENTS
 
@@ -149,7 +147,6 @@ GetOptions( 'debug'             => \$DEBUG,
 #die $usage unless $#ARGV; #<- use this if args must be provided
 die $usage if $HELP;               
 
-
 ############################################################################
 #                          Begin Running LBD
 ############################################################################
@@ -160,95 +157,34 @@ defined $options{'lbdConfig'} or die ("ERROR: no lbdConfig file defined\n");
 my $lbd = LiteratureBasedDiscovery->new(\%options);
 $lbd->performLBD();
 
-
-##############################################################################
-#  function to output minimal usage notes
-##############################################################################
-sub minimalUsageNotes {
-    print "Usage: runDiscovery.pl [OPTIONS]\n";  #TOOD if parameters become required update this
-    &askHelp();
-    exit;
-}
-
 ############################################################################
 #  function to output help messages for this program
 ############################################################################
-#TODO write your own help
 sub showHelp() {
         
-    print "This is a utility that takes as input either two terms \n";
-    print "or two CUIs from the command line or a file and returns \n";
-    print "their association using one of the following measures: \n";
-
-    print "1.  Dice Coefficient (dice) \n";
-    print "2.  Fishers exact test - left sided (left)\n";
-    print "3.  Fishers exact test - right sided (right)\n";
-    print "4.  Fishers twotailed test - right sided (twotailed)\n";
-    print "5.  Jaccard Coefficient (jaccard)\n";
-    print "6.  Log-likelihood ratio (ll)\n"; 
-    print "7.  Mutual Information (tmi)\n";
-    print "8.  Odds Ratio (oods)\n";
-    print "9.  Pointwise Mutual Information (pmi)\n";
-    print "10. Phi Coefficient (phi)\n";
-    print "11. Pearson's Chi Squared Test (chi)\n";
-    print "12. Poisson Stirling Measure (ps)\n";
-    print "13. T-score (tscore) DEFAULT\n\n";
-
-    print "Usage: umls-assocation.pl [OPTIONS] TERM1 TERM2\n\n";
-
+    print "This utility takes an lbd configuration file and outputs\n";
+    print "the results of lbd to file. The parameters for LBD are\n";
+    print "specified in the input file. Please see samples/lbd or\n";
+    print "samples/thresholding for sample input files and descriptions\n";
+    print "of parameters and full details on what can be in an LBD input\n";
+    print "file.\n";
+    
+    print "\n";
+    print "Usage: runDiscovery.pl LBD_CONFIG_FILE [OPTIONS]\n";
+    
+    print "\n";
     print "General Options:\n\n";
-
-    print "--measure MEASURE        The measure to use to calculate the\n";
-    print "                         assocation. (DEFAULT: tscore)\n\n";
-
-    print "--precision N            Displays values upto N places of decimal. (DEFAULT: 4)\n\n";
-
-    print "--version                Prints the version number\n\n";
-    
-    print "--help                   Prints this help message.\n\n";
-
-    print "--getdescendants         Calculates the association score taking into account
-                         the occurrences of descendants of the specified CUIs\n\n";
-
-    print "--config FILE            Configuration file\n\n";    
-
-    print "\n\nInput Options: \n\n";
-
-    print "--infile FILE            File containing TERM or CUI pairs\n\n";  
-
-    print "\n\nGeneral Database Options:\n\n"; 
-
-    print "--username STRING        Username required to access mysql\n\n";
-
-    print "--password STRING        Password required to access mysql\n\n";
-
-    print "--hostname STRING        Hostname for mysql (DEFAULT: localhost)\n\n";
-    print "--socket STRING          Socket for mysql (DEFAULT: /tmp/mysql.sock\n\n";
-
-    print "\n\nUMLS-Interface Database Options: \n\n";
-
-    print "--umlsdatabase STRING        Database contain UMLS (DEFAULT: umls)\n\n";
-    
-    print "\n\nUMLS-Association Database Options: \n\n";
-
-    print "--assocdatabase STRING        Database containing CUI bigrams 
-                              (DEFAULT: CUI_BIGRAMS)\n\n";
-    
-}
-##############################################################################
-#  function to output the version number
-##############################################################################
-sub showVersion {
-    print '$Id: runDiscovery.pl,v 0.01 2015/06/24 19:25:05 btmcinnes Exp $';
-    print "\nCopyright (c) 2017, Sam Henry\n";
-}
-
-##############################################################################
-#  function to output "ask for help" message when user's goofed
-##############################################################################
-sub askHelp {
-    print STDERR "Type runDiscovery.pl --help for help.\n";
-}
-
-
-
+    print "--help               displays help, a quick summary of program\n"; 
+    print "                     options\n";
+    print "--assocConfig        path to a UMLS::Association configuration\n";
+    print "                     file. Default location is \n";
+    print "                     '../config/association'. Replace this file\n";
+    print "                     for your computer to avoid having to specify\n";
+    print "                     each time.\n";
+    print "--interfaceConfig    path to a UMLS::Interface configuration\n";
+    print "                     file. Default location is \n";
+    print "                     '../config/interface'. Replace this file \n";
+    print "                     for your computer to avoid having to specify\n";
+    print "                     each time.\n";
+    print "--debug              enter debug mode\n";
+};
