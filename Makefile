@@ -15,7 +15,7 @@
 #     AUTHOR => [q[Sam Henry <henryst@vcu.edu>]]
 #     BUILD_REQUIRES => {  }
 #     CONFIGURE_REQUIRES => {  }
-#     EXE_FILES => [q[utils/runDiscovery.pl]]
+#     EXE_FILES => [q[utils/runDiscovery.pl], q[utils/datasetCreator/applyMaxThreshold.pl], q[utils/datasetCreator/applyMinThreshold.pl], q[utils/datasetCreator/applySemanticFilter.pl], q[utils/datasetCreator/combineCooccurrenceMatrices.pl], q[utils/datasetCreator/makeOrderNotMatter.pl], q[utils/datasetCreator/removeCUIPair.pl], q[utils/datasetCreator/removeExplicit.pl], q[utils/datasetCreator/testMatrixEquality.pl], q[utils/datasetCreator/dataStats/getCUICooccurrences.pl], q[utils/datasetCreator/dataStats/getMatrixStats.pl], q[utils/datasetCreator/dataStats/metaAnalysis.pl], q[utils/datasetCreator/fromMySQL/dbToTab.pl], q[utils/datasetCreator/fromMySQL/removeQuotes.pl], q[utils/datasetCreator/squaring/convertForSquaring_MATLAB.pl], q[utils/datasetCreator/squaring/squareMatrix_perl.pl]]
 #     NAME => q[assocLBD]
 #     PREREQ_PM => { UMLS::Interface=>q[0], UMLS::Association=>q[0] }
 #     TEST_REQUIRES => {  }
@@ -59,11 +59,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = assocLBD
 NAME_SYM = assocLBD
-VERSION = undef
+VERSION = 0.01
 VERSION_MACRO = VERSION
-VERSION_SYM = undef
+VERSION_SYM = 0_01
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = undef
+XS_VERSION = 0.01
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -163,7 +163,7 @@ C_FILES  =
 O_FILES  = 
 H_FILES  = 
 MAN1PODS = utils/runDiscovery.pl
-MAN3PODS = 
+MAN3PODS = lib/LiteratureBasedDiscovery.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -272,7 +272,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = assocLBD
-DISTVNAME = assocLBD-undef
+DISTVNAME = assocLBD-0.01
 
 
 # --- MakeMaker macro section:
@@ -425,9 +425,12 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
-	utils/runDiscovery.pl
+	utils/runDiscovery.pl \
+	lib/LiteratureBasedDiscovery.pm
 	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
 	  utils/runDiscovery.pl $(INST_MAN1DIR)/runDiscovery.pl.$(MAN1EXT) 
+	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	  lib/LiteratureBasedDiscovery.pm $(INST_MAN3DIR)/LiteratureBasedDiscovery.$(MAN3EXT) 
 
 
 
@@ -437,20 +440,117 @@ manifypods : pure_all  \
 
 # --- MakeMaker installbin section:
 
-EXE_FILES = utils/runDiscovery.pl
+EXE_FILES = utils/runDiscovery.pl utils/datasetCreator/applyMaxThreshold.pl utils/datasetCreator/applyMinThreshold.pl utils/datasetCreator/applySemanticFilter.pl utils/datasetCreator/combineCooccurrenceMatrices.pl utils/datasetCreator/makeOrderNotMatter.pl utils/datasetCreator/removeCUIPair.pl utils/datasetCreator/removeExplicit.pl utils/datasetCreator/testMatrixEquality.pl utils/datasetCreator/dataStats/getCUICooccurrences.pl utils/datasetCreator/dataStats/getMatrixStats.pl utils/datasetCreator/dataStats/metaAnalysis.pl utils/datasetCreator/fromMySQL/dbToTab.pl utils/datasetCreator/fromMySQL/removeQuotes.pl utils/datasetCreator/squaring/convertForSquaring_MATLAB.pl utils/datasetCreator/squaring/squareMatrix_perl.pl
 
-pure_all :: $(INST_SCRIPT)/runDiscovery.pl
+pure_all :: $(INST_SCRIPT)/removeQuotes.pl $(INST_SCRIPT)/getMatrixStats.pl $(INST_SCRIPT)/applyMinThreshold.pl $(INST_SCRIPT)/convertForSquaring_MATLAB.pl $(INST_SCRIPT)/runDiscovery.pl $(INST_SCRIPT)/squareMatrix_perl.pl $(INST_SCRIPT)/metaAnalysis.pl $(INST_SCRIPT)/getCUICooccurrences.pl $(INST_SCRIPT)/testMatrixEquality.pl $(INST_SCRIPT)/applyMaxThreshold.pl $(INST_SCRIPT)/removeCUIPair.pl $(INST_SCRIPT)/dbToTab.pl $(INST_SCRIPT)/applySemanticFilter.pl $(INST_SCRIPT)/removeExplicit.pl $(INST_SCRIPT)/combineCooccurrenceMatrices.pl $(INST_SCRIPT)/makeOrderNotMatter.pl
 	$(NOECHO) $(NOOP)
 
 realclean ::
 	$(RM_F) \
-	  $(INST_SCRIPT)/runDiscovery.pl 
+	  $(INST_SCRIPT)/removeQuotes.pl $(INST_SCRIPT)/getMatrixStats.pl \
+	  $(INST_SCRIPT)/applyMinThreshold.pl $(INST_SCRIPT)/convertForSquaring_MATLAB.pl \
+	  $(INST_SCRIPT)/runDiscovery.pl $(INST_SCRIPT)/squareMatrix_perl.pl \
+	  $(INST_SCRIPT)/metaAnalysis.pl $(INST_SCRIPT)/getCUICooccurrences.pl \
+	  $(INST_SCRIPT)/testMatrixEquality.pl $(INST_SCRIPT)/applyMaxThreshold.pl \
+	  $(INST_SCRIPT)/removeCUIPair.pl $(INST_SCRIPT)/dbToTab.pl \
+	  $(INST_SCRIPT)/applySemanticFilter.pl $(INST_SCRIPT)/removeExplicit.pl \
+	  $(INST_SCRIPT)/combineCooccurrenceMatrices.pl $(INST_SCRIPT)/makeOrderNotMatter.pl 
+
+$(INST_SCRIPT)/removeQuotes.pl : utils/datasetCreator/fromMySQL/removeQuotes.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/removeQuotes.pl
+	$(CP) utils/datasetCreator/fromMySQL/removeQuotes.pl $(INST_SCRIPT)/removeQuotes.pl
+	$(FIXIN) $(INST_SCRIPT)/removeQuotes.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/removeQuotes.pl
+
+$(INST_SCRIPT)/getMatrixStats.pl : utils/datasetCreator/dataStats/getMatrixStats.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/getMatrixStats.pl
+	$(CP) utils/datasetCreator/dataStats/getMatrixStats.pl $(INST_SCRIPT)/getMatrixStats.pl
+	$(FIXIN) $(INST_SCRIPT)/getMatrixStats.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/getMatrixStats.pl
+
+$(INST_SCRIPT)/applyMinThreshold.pl : utils/datasetCreator/applyMinThreshold.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/applyMinThreshold.pl
+	$(CP) utils/datasetCreator/applyMinThreshold.pl $(INST_SCRIPT)/applyMinThreshold.pl
+	$(FIXIN) $(INST_SCRIPT)/applyMinThreshold.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/applyMinThreshold.pl
+
+$(INST_SCRIPT)/convertForSquaring_MATLAB.pl : utils/datasetCreator/squaring/convertForSquaring_MATLAB.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/convertForSquaring_MATLAB.pl
+	$(CP) utils/datasetCreator/squaring/convertForSquaring_MATLAB.pl $(INST_SCRIPT)/convertForSquaring_MATLAB.pl
+	$(FIXIN) $(INST_SCRIPT)/convertForSquaring_MATLAB.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/convertForSquaring_MATLAB.pl
 
 $(INST_SCRIPT)/runDiscovery.pl : utils/runDiscovery.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/runDiscovery.pl
 	$(CP) utils/runDiscovery.pl $(INST_SCRIPT)/runDiscovery.pl
 	$(FIXIN) $(INST_SCRIPT)/runDiscovery.pl
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/runDiscovery.pl
+
+$(INST_SCRIPT)/squareMatrix_perl.pl : utils/datasetCreator/squaring/squareMatrix_perl.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/squareMatrix_perl.pl
+	$(CP) utils/datasetCreator/squaring/squareMatrix_perl.pl $(INST_SCRIPT)/squareMatrix_perl.pl
+	$(FIXIN) $(INST_SCRIPT)/squareMatrix_perl.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/squareMatrix_perl.pl
+
+$(INST_SCRIPT)/metaAnalysis.pl : utils/datasetCreator/dataStats/metaAnalysis.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/metaAnalysis.pl
+	$(CP) utils/datasetCreator/dataStats/metaAnalysis.pl $(INST_SCRIPT)/metaAnalysis.pl
+	$(FIXIN) $(INST_SCRIPT)/metaAnalysis.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/metaAnalysis.pl
+
+$(INST_SCRIPT)/getCUICooccurrences.pl : utils/datasetCreator/dataStats/getCUICooccurrences.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/getCUICooccurrences.pl
+	$(CP) utils/datasetCreator/dataStats/getCUICooccurrences.pl $(INST_SCRIPT)/getCUICooccurrences.pl
+	$(FIXIN) $(INST_SCRIPT)/getCUICooccurrences.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/getCUICooccurrences.pl
+
+$(INST_SCRIPT)/testMatrixEquality.pl : utils/datasetCreator/testMatrixEquality.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/testMatrixEquality.pl
+	$(CP) utils/datasetCreator/testMatrixEquality.pl $(INST_SCRIPT)/testMatrixEquality.pl
+	$(FIXIN) $(INST_SCRIPT)/testMatrixEquality.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/testMatrixEquality.pl
+
+$(INST_SCRIPT)/applyMaxThreshold.pl : utils/datasetCreator/applyMaxThreshold.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/applyMaxThreshold.pl
+	$(CP) utils/datasetCreator/applyMaxThreshold.pl $(INST_SCRIPT)/applyMaxThreshold.pl
+	$(FIXIN) $(INST_SCRIPT)/applyMaxThreshold.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/applyMaxThreshold.pl
+
+$(INST_SCRIPT)/removeCUIPair.pl : utils/datasetCreator/removeCUIPair.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/removeCUIPair.pl
+	$(CP) utils/datasetCreator/removeCUIPair.pl $(INST_SCRIPT)/removeCUIPair.pl
+	$(FIXIN) $(INST_SCRIPT)/removeCUIPair.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/removeCUIPair.pl
+
+$(INST_SCRIPT)/dbToTab.pl : utils/datasetCreator/fromMySQL/dbToTab.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/dbToTab.pl
+	$(CP) utils/datasetCreator/fromMySQL/dbToTab.pl $(INST_SCRIPT)/dbToTab.pl
+	$(FIXIN) $(INST_SCRIPT)/dbToTab.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/dbToTab.pl
+
+$(INST_SCRIPT)/applySemanticFilter.pl : utils/datasetCreator/applySemanticFilter.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/applySemanticFilter.pl
+	$(CP) utils/datasetCreator/applySemanticFilter.pl $(INST_SCRIPT)/applySemanticFilter.pl
+	$(FIXIN) $(INST_SCRIPT)/applySemanticFilter.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/applySemanticFilter.pl
+
+$(INST_SCRIPT)/removeExplicit.pl : utils/datasetCreator/removeExplicit.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/removeExplicit.pl
+	$(CP) utils/datasetCreator/removeExplicit.pl $(INST_SCRIPT)/removeExplicit.pl
+	$(FIXIN) $(INST_SCRIPT)/removeExplicit.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/removeExplicit.pl
+
+$(INST_SCRIPT)/combineCooccurrenceMatrices.pl : utils/datasetCreator/combineCooccurrenceMatrices.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/combineCooccurrenceMatrices.pl
+	$(CP) utils/datasetCreator/combineCooccurrenceMatrices.pl $(INST_SCRIPT)/combineCooccurrenceMatrices.pl
+	$(FIXIN) $(INST_SCRIPT)/combineCooccurrenceMatrices.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/combineCooccurrenceMatrices.pl
+
+$(INST_SCRIPT)/makeOrderNotMatter.pl : utils/datasetCreator/makeOrderNotMatter.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/makeOrderNotMatter.pl
+	$(CP) utils/datasetCreator/makeOrderNotMatter.pl $(INST_SCRIPT)/makeOrderNotMatter.pl
+	$(FIXIN) $(INST_SCRIPT)/makeOrderNotMatter.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/makeOrderNotMatter.pl
 
 
 
@@ -509,7 +609,7 @@ realclean purge ::  clean realclean_subdirs
 metafile : create_distdir
 	$(NOECHO) $(ECHO) Generating META.yml
 	$(NOECHO) $(ECHO) '---' > META_new.yml
-	$(NOECHO) $(ECHO) 'abstract: unknown' >> META_new.yml
+	$(NOECHO) $(ECHO) 'abstract: '\''a perl implementation of Literature Based Discovery'\''' >> META_new.yml
 	$(NOECHO) $(ECHO) 'author:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  - '\''Sam Henry <henryst@vcu.edu>'\''' >> META_new.yml
 	$(NOECHO) $(ECHO) 'build_requires:' >> META_new.yml
@@ -530,11 +630,11 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  UMLS::Association: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  UMLS::Interface: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version: '\'''\''' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version: 0.01' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
 	$(NOECHO) $(ECHO) Generating META.json
 	$(NOECHO) $(ECHO) '{' > META_new.json
-	$(NOECHO) $(ECHO) '   "abstract" : "unknown",' >> META_new.json
+	$(NOECHO) $(ECHO) '   "abstract" : "a perl implementation of Literature Based Discovery",' >> META_new.json
 	$(NOECHO) $(ECHO) '   "author" : [' >> META_new.json
 	$(NOECHO) $(ECHO) '      "Sam Henry <henryst@vcu.edu>"' >> META_new.json
 	$(NOECHO) $(ECHO) '   ],' >> META_new.json
@@ -573,7 +673,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '      }' >> META_new.json
 	$(NOECHO) $(ECHO) '   },' >> META_new.json
 	$(NOECHO) $(ECHO) '   "release_status" : "stable",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "version" : ""' >> META_new.json
+	$(NOECHO) $(ECHO) '   "version" : 0.01' >> META_new.json
 	$(NOECHO) $(ECHO) '}' >> META_new.json
 	-$(NOECHO) $(MV) META_new.json $(DISTVNAME)/META.json
 
@@ -870,7 +970,7 @@ testdb_static :: testdb_dynamic
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
 	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="$(VERSION)">' > $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <ABSTRACT>a perl implementation of Literature Based Discovery</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Sam Henry &lt;henryst@vcu.edu&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="UMLS::Association" />' >> $(DISTNAME).ppd

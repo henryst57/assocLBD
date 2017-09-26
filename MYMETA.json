@@ -1,5 +1,5 @@
 {
-   "abstract" : "unknown",
+   "abstract" : "a perl implementation of Literature Based Discovery",
    "author" : [
       "Sam Henry <henryst@vcu.edu>"
    ],
@@ -38,5 +38,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : ""
+   "version" : 0.01
 }

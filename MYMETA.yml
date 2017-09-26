@@ -1,5 +1,5 @@
 ---
-abstract: unknown
+abstract: 'a perl implementation of Literature Based Discovery'
 author:
   - 'Sam Henry <henryst@vcu.edu>'
 build_requires:
@@ -20,4 +20,4 @@ no_index:
 requires:
   UMLS::Association: 0
   UMLS::Interface: 0
-version: ''
+version: 0.01
