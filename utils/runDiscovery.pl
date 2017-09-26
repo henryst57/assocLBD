@@ -119,7 +119,7 @@ use LiteratureBasedDiscovery;
 # CONSTANT STRINGS
 ###############################################################################
 
-my $usage = (&showVersion)."\n"
+my $usage = "\n"
 ."FLAGS\n"
 ."--debug       Print EVERYTHING to STDERR.\n"
 ."--help        Print this help screen.\n"
@@ -136,6 +136,7 @@ my $usage = (&showVersion)."\n"
 #############################################################################
 my $DEBUG = 0;      # Prints EVERYTHING. Use with small testing files.        
 my $HELP = '';      # Prints usage and exits if true.
+my $VERSION;
 
 #set default param values
 my %options = ();
@@ -145,12 +146,18 @@ $options{'interfaceConfig'} = '../config/interface';
 #grab all the options and set values
 GetOptions( 'debug'             => \$DEBUG, 
             'help'              => \$HELP,
+	    'version'           => \$VERSION,
             'assocConfig=s'     => \$options{'assocConfig'},
             'interfaceConfig=s' => \$options{'interfaceConfig'},
 );
 
 #die $usage unless $#ARGV; #<- use this if args must be provided
-die $usage if $HELP;               
+die $usage if $HELP;      
+
+if ($VERSION) {
+    print "current version is ".(LiteratureBasedDiscovery->version())."\n";
+    exit;
+}         
 
 
 ############################################################################
