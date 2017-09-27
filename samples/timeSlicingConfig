@@ -65,7 +65,7 @@
 # restricts the linking terms to the semantic groups specified. Group names
 # come directly from the UMLS. 
 # See https://metamap.nlm.nih.gov/Docs/SemGroups_2013.txt for a list
-<linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
+#<linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 
 # similar to linking accept groups, this restricts the acceptable linking (B) 
 # terms to terms within the semantic types listed
@@ -76,7 +76,7 @@
 # restricts the linking terms to the semantic groups specified. Group names
 # come directly from the UMLS. 
 # See https://metamap.nlm.nih.gov/Docs/SemGroups_2013.txt for a list
-<targetAcceptGroups>CHEM,GENE
+#<targetAcceptGroups>CHEM,GENE
 
 # similar to target termcept groups, this restricts the acceptable target (C) 
 # terms to terms within the semantic types listed

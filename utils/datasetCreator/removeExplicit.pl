@@ -1,9 +1,9 @@
 #removes the explicit co-occurrence matrix from the squared explicit 
 # co-occurrence matrix. This generates a gold standard true discovery file
 
-my $matrixFileName = '/home/henryst/lbdData/groupedData/reg/1975_1999_window1_noOrder';
-my $squaredMatrixFileName = '/home/henryst/lbdData/groupedData/reg/2000_2015_window1_noOrder';
-my $outputFileName = '2000_2015_window1_noOrder_1975_1999Removed';
+my $matrixFileName = '../../samples/sampleExplicitMatrix';
+my $squaredMatrixFileName = '../../samples/postCutoffMatrix';
+my $outputFileName = '../../samples/sampleGoldMatrix';
 
 &removeExplicit($matrixFileName, $squaredMatrixFileName, $outputFileName);
 

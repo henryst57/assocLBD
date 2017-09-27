@@ -1090,12 +1090,11 @@ sub _parametersToString {
 }
 
 
-# shows the version currently being used
+# returns the version currently being used
 # input : none
 # output: the version number being used
 sub version {
     my $self = shift;
-    print STDERR "$VERSION\n";
     return $VERSION;
 }
 

@@ -153,7 +153,7 @@ my $N11_TABLE = 'N_11';
 my %lbdOptions = ();
    #rankingProcedure <-- the procedure to use for ranking
    #rankingMeasure <-- the association measure to use for ranking 
-   #implicitOutputFile  <--- TODO do I use this?  just the output file of results?
+   #implicitOutputFile  <--- the output file of results
 
    #explicitInputFile <-- load explicit from file rather than assocDB
    #implicitInputFile <-- load implicit from file rather than calculating
@@ -830,7 +830,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	$predictionsMatrixRef, $goldMatrixRef, \%rowRanks);
 
     #output precision and recall
-    print STDERR "---------- average precision at 10% recall intervals (i recall precision) ---------------> \n";
+    print STDERR "----- average precision at 10% recall intervals (i recall precision) ----> \n";
     foreach my $i (sort {$a <=> $b} keys %{$precisionRef}) {
 	print STDERR "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
     }
@@ -898,14 +898,26 @@ sub _initialize {
     my $optionsHashRef = shift; 
 
     #initialize UMLS::Interface
-    my $componentOptions = 
-	$self->_readConfigFile(${$optionsHashRef}{'interfaceConfig'});
+    my %tHash = ();
+    $tHash{'t'} = 1; #default hash values are with t=1 (silence module output)
+    my $componentOptions = \%tHash;
+    if (${$optionsHashRef}{'interfaceConfig'} ne '') {
+	#read configuration file if its defined
+	$componentOptions = 
+	    $self->_readConfigFile(${$optionsHashRef}{'interfaceConfig'});
+    }
+    #else use default configuration
     $umls_interface = UMLS::Interface->new($componentOptions) 
 	or die "Error: Unable to create UMLS::Interface object.\n";
 
     #initialize UMLS::Association
-    $componentOptions = 
-	$self->_readConfigFile(${$optionsHashRef}{'assocConfig'});
+    $componentOptions = \%tHash;
+    if (${$optionsHashRef}{'assocConfig'} ne '') {
+	#read configuration file if its defined
+	$componentOptions = 
+	    $self->_readConfigFile(${$optionsHashRef}{'assocConfig'});
+    }
+    #else use default configuation
     $umls_association = UMLS::Association->new($componentOptions) or 
 	die "Error: Unable to create UMLS::Association object.\n";
     
@@ -929,7 +941,7 @@ sub _readConfigFile {
     my $configFileName = shift;
     
     #read in all options from the config file
-    open IN, $configFileName or die("Error: Cannot Open LBD config file: $configFileName\n");
+    open IN, $configFileName or die("Error: Cannot open config file: $configFileName\n");
     my %optionsHash = ();
     my $firstChar;
     while (my $line = <IN>) {

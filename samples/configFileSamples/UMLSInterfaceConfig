@@ -9,11 +9,19 @@
 #
 # For parameters where no value is needed, just write the name of the
 # parameter in '<>' (e.g. '<debug>')
+#
+#
+# See UMLS::Interface for more detail
 
+# makes the UMLS::Interface not print to the command line
 <t>
-<config>interfaceConfig
 
-<hostname>192.168.24.89
-<username>henryst
-<password>OhFaht3eique
+# Put the full pathname of the UMLS::Interface Config File
+<config>/home/sam/assocLBD-0.01/config/interfaceConfig
+
+# If the UMLS::Interface Database is not installed on the local machine
+# The following parameters may be needed to connect to the server
+<hostname>192.168.00.00
+<username>username
+<password>password
 <socket>/var/run/mysqld.sock

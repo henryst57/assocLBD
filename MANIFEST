@@ -21,8 +21,12 @@ samples/lbd
 samples/postCutoffMatrix
 samples/runSample.pl
 samples/sampleExplicitMatrix
+samples/sampleGoldMatrix
 samples/timeSliceCuiList
 samples/timeSlicing
+samples/configFileSamples/UMLSAssociationConfig
+samples/configFileSamples/UMLSInterfaceConfig
+samples/configFileSamples/UMLSInterfaceInternalConfig
 t/runDiscovery.t
 utils/runDiscovery.pl
 utils/datasetCreator/applyMaxThreshold.pl

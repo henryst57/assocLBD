@@ -18,7 +18,7 @@ WriteMakefile(
               'VERSION_FROM' => 'lib/LiteratureBasedDiscovery.pm',
               'PREREQ_PM'      => { 'UMLS::Interface' => '0', 
                                       'UMLS::Association' => '0'},
-              'EXE_FILES'         => [("utils/runDiscovery.pl", "utils/datasetCreator/applyMaxThreshold.pl", "utils/datasetCreator/applyMinThreshold.pl", "utils/datasetCreator/applySemanticFilter.pl", "utils/datasetCreator/combineCooccurrenceMatrices.pl", "utils/datasetCreator/makeOrderNotMatter.pl", "utils/datasetCreator/removeCUIPair.pl", "utils/datasetCreator/removeExplicit.pl", "utils/datasetCreator/testMatrixEquality.pl", "utils/datasetCreator/dataStats/getCUICooccurrences.pl", "utils/datasetCreator/dataStats/getMatrixStats.pl", "utils/datasetCreator/dataStats/metaAnalysis.pl", "utils/datasetCreator/fromMySQL/dbToTab.pl", "utils/datasetCreator/fromMySQL/removeQuotes.pl", "utils/datasetCreator/squaring/convertForSquaring_MATLAB.pl", "utils/datasetCreator/squaring/squareMatrix_perl.pl", "samples/runSample.pl")], 
+              'EXE_FILES'         => [("utils/runDiscovery.pl")], 
               'dist'              => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'},
     ($] >= 5.005 ?
      ('ABSTRACT_FROM'   => 'lib/LiteratureBasedDiscovery.pm', # retrieve abstract from module
