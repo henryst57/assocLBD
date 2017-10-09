@@ -1,9 +1,3 @@
-##################################################################
-#
-#    README for the UMLS-Association Package
-#    $Id: README.pod,v 1.20 2011/05/13 19:50:32 btmcinnes Exp $ 
-#################################################################
-
 =head1 NAME
 
 assoc_LBD README
@@ -60,10 +54,22 @@ assocLBD requires that a co-occurrence matrix of CUIs has been created. This mat
 
 Note: utils/datasetCreator/fromMySQL/removeQuotes.pl may need to be run on the resulting tab seperated file, if quotes are inlcuded in the resulting co-ocurrence matrix file.
 
+=head2 Set Up Dummy UMLS::Association Database
+
+UMLS::Association requires that a database can be connected to that is in the correct format. Although this database is not required for assocLBD (since co-occurrence data is loaded from a co-occurrence matrix), it is required to run UMLS:Association. If you ran UMLS::Association to generate a co-occurrence matrix, you should be fine. Otherwise you will need to create a dummy database that it can connect to. This can be done in a few steps:
+
+1) open mysql
+     type mysql at the terminal
+
+2) create the default database in the correct format, type:
+     CREATE DATABASE cuicounts;
+     use cuicounts;
+     CREATE TABLE N_11(cui_1 CHAR(10), cui_2 CHAR(10), n_11 BIGINT(20));
+
+
 =head2 INITIALIZING THE MODULE
 
 To create an instance of the assoc_LBD object, using default values for all configuration options:
-    
     %options = ();
     $options{'lbdConfig'} = 'configFile';
     my $lbd = LiteratureBasedDiscovery->new(\%options);
@@ -92,19 +98,18 @@ All the modules that will be installed in the Perl system directory are present 
 
 The package contains a utils/ directory that contain Perl utility programs. These utilities use the modules or provide some supporting functionality.
 
-runDiscovery.pl            -- runs LBD using the parameters specified in the input file, and outputs to an output file.
-         
+runDiscovery.pl            -- runs LBD using the parameters specified in the input file, and outputs to an output file.         
 
 The package contains a large selection of functions to manipulate CUI Co-occurrence matrices in the utils/datasetCreator/ directory. These are short scripts and generally require modifying the code at the top with user input paramaters specific for each run. These scripts include:
-	
+
 applyMaxThreshold.pl		-- applies a maximum co-occurrence threshold to the co-occurrence matrix
 
 applyMinThreshold.pl		-- applies a minimum co-occurrence threshold to the co-occurrence matrix
 
 applySemanticFilter.pl		-- applies a semantic type and/or group filter to the co-occurrence matrix.
 
-combineCooccurrenceMatrices.pl	-- combines the co-occurrence counts of multiple co-occurrence matrices
-	
+combineCooccurrenceMatrices.pl	-- combines the co-occurrence counts of multiple co-occurrence matrices	
+
 makeOrderNotMatter.pl		-- makes the order of CUI co-occurrences not matter by updating the co-occurrence matrix file. (UMLS::Association generates co-occurrence files where order does matter, so the sentence 'cui1 cui2' will only mark a co-occurrence between cui1 and cui2, but not between cui2 and cui1).
 
 removeCUIPair.pl 		-- removes all occurrences of the specified CUI pair from the co-occurrence matrix
@@ -112,7 +117,7 @@ removeCUIPair.pl 		-- removes all occurrences of the specified CUI pair from the
 removeExplicit.pl 		-- removes any keys that occur in an explicit co-occurrence matrix from another co-occurrence matrix (typically the squared explicit co-occurrence matrix itself, which generates a prediction matrix, or the post cutoff matrix used in time slicing to generate a gold standard file)
 
 testMatrixEquality.pl		-- checks to see if two co-occurrence matrix files contain the same data
-	 
+
 Also included are several subfolders with more specific purposes. Within the dataStats subfolder are scripts to collect various statistics about the co-occurrence matrices used in LBD. These scriptsinclude:
 
 getCUICooccurrences.pl		-- a data statistics file that gets the number of co-occurrences, and number of unique co-occurrences for every CUI in the dataset
@@ -120,7 +125,7 @@ getCUICooccurrences.pl		-- a data statistics file that gets the number of co-occ
 getMatrixStats.pl 		-- determines the number of rows, columns, and entries of a co-occurrence matrix
 
 metaAnalysis.pl			-- determines the number of rows, columns, vocabulary size, and total number of co-occurrences of a co-occurrence file, or set of co-occurrence files
-	
+
 There is another folder containing scripts to square co-occurrence matrices. Squaring an explicit (A to B) co-occurrence matrix results in a co-occurrence matrix containing all implicit (A to C) connections. This is useful for time slicing and other analysis. Removal of the original explicit matrix is an additional step that is required if you wish to create a predictions matrix file for every CUI. This can be done with the removeExplicit.pl script. Squaring a co-occurrence matrix can be very computationally expensive, both in terms of ram and cpu. For this reason MATLAB scripts are preferred over perl scripts. Even using MATLAB ram can become an issue, and squaring sections of a matrix and combining them into a single output matrix may be necassary, but takes much longer. Scripts in the squaring folder include:
 
 convertForSquaring_MATLAB.pl 	   -- functions to convert to and from assocLBD and MATLAB sparse matrix formats
@@ -130,13 +135,12 @@ squareMatrix.m			   -- MATLAB script to square a matrix while holding everything
 squareMatrix_partial.m		   -- MATLAB script to square a matrix in chunks. Only loads parts of the matrix into ram at a time which makes squaring any size matrix possible, but potentially take impracticle amounts of time.
 
 squareMatrix_perl.pl		    -- squares a matrix in perl, but requires the most ram of any squaring method. The easiest method to use, but only practical for small datasets.
-	
+
 The fromMySQL folder contains scripts that convery UMLS::Association databases to assocLBD co-occurrence matrices. The files contained are:
 
 dbToTab.pl    	     	      	     -- converts a UMLS::Association co-occurrence database to a sparse format co-occurrence matrix used for assocLBD
 
-removeQuotes.pl			     -- removes quotes from lines in the co-occurrence matrix file after converting from a database (sometimes needed)
-    
+removeQuotes.pl			     -- removes quotes from lines in the co-occurrence matrix file after converting from a database (sometimes needed)    
 
 =head2 REFERENCING
 
@@ -150,10 +154,12 @@ contact us directly if you prefer :
 
     Sam Henry: henryst at vcu.edu
 
+    Bridget McInnes: btmcinnes at vcu.edu
+
 
 =head2 SOFTWARE COPYRIGHT AND LICENSE
 
-    Copyright (C) 2017 Sam Henry
+    Copyright (C) 2017 Sam Henry & Bridget McInnes
 
     This suite of programs is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as published

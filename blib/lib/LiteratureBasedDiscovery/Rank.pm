@@ -108,7 +108,7 @@ sub scoreImplicit_ltcAssociation {
 	#only calculate if np1 > 0
 	if ($np1{$cTerm} > 0) {
 	    #get score
-	    $score{$cTerm} = $association->calculateStatisticFromContingencyTable($n11{$cTerm}, $n1p, $np1{$cTerm}, $npp, $measure);
+	    $score{$cTerm} = $association->_calculateAssociation_fromObservedCounts($n11{$cTerm}, $n1p, $np1{$cTerm}, $npp, $measure);
 	}
     }
     
@@ -525,7 +525,7 @@ sub scoreImplicit_fromImplicitMatrix {
     my %associationScores = ();
     foreach my $cTerm(keys %cTerms) {
 	$associationScores{$cTerm} = 
-	    $association->calculateStatisticFromContingencyTable($n11{$cTerm}, $n1p, $np1{$cTerm}, $npp, $measure);
+	    $association->_calculateAssociation_fromObservedCounts($n11{$cTerm}, $n1p, $np1{$cTerm}, $npp, $measure);
     }
 
     return \%associationScores;
@@ -719,7 +719,7 @@ sub getBatchAssociationScores {
 
 	#get association if possible (only possible if the terms have co-occurred)
 	if (defined $n11) {
-	    ${$cuiPairsRef}{$key} = $association->calculateStatisticFromContingencyTable($n11, ${$n1pRef}{$cui1}, ${$np1Ref}{$cui2}, $npp, $measure);
+	    ${$cuiPairsRef}{$key} = $association->_calculateAssociation_fromObservedCounts($n11, ${$n1pRef}{$cui1}, ${$np1Ref}{$cui2}, $npp, $measure);
 	}
     }
 }

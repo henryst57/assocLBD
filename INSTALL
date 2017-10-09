@@ -22,18 +22,22 @@ REQUIREMENTS
     assocLBD REQUIRES that the following software packages and data:
 
   Programming Languages
-     Perl (version 5.16.3 or better)
+         Perl (version 5.16.3 or better)
+
   CPAN Modules
-     UMLS::Association
-     UMLS::Interface
+         UMLS::Association
+         UMLS::Interface
+
   Required for some Methods:
-     MATLAB
-     MySQL (version 5 or better)
+         MATLAB
+         MySQL (version 5 or better)
+
 INSTALLATION STAGES
-    The installation is broken into four stages: =item Stage 1: Install
-    Programming Languages If already installed you need at minimum: - Perl
-    version 5.16.3 or better
-    Stage 2: Install CPAN Modules =item Stage 3: Install assocLBD =item
+    The installation is broken into four stages:
+    Stage 1: Install Programming Languages If already installed you need at
+    minimum: - Perl version 5.16.3 or better
+    Stage 2: Install CPAN Modules
+    Stage 3: Install assocLBD
     Stage 4: Create an co-occurrence matrix
 
   Stage 1: Install Programming Languages, if already installed go to Stage 2
@@ -58,23 +62,30 @@ INSTALLATION STAGES
     <http://search.cpan.org/dist/UMLS-Interface/>
 
    UMLS::Association
-Use to calculate association scores used in most of the ranking methods
+    Use to calculate association scores used in most of the ranking method.
+
     The package is freely available at:
 
+        <http://search.cpan.org/dist/UMLS-Association/>
+
   Stage 3: Install assocLBD package
-The usual way to install the package is to run the following commands:
-    perl Makefile.PL make make test make install
+    The usual way to install the package is to run the following commands:
+
+        perl Makefile.PL
+        make
+        make test
+        make install
 
     You will often need root access/superuser privileges to run make
     install. The module can also be installed locally. To do a local
     install, you need to specify a PREFIX option when you run 'perl
     Makefile.PL'. For example,
 
-    perl Makefile.PL PREFIX=/home
+        perl Makefile.PL PREFIX=/home
 
-    or
-
-    perl Makefile.PL LIB=/home/lib PREFIX=/home
+        or
+    
+        perl Makefile.PL LIB=/home/lib PREFIX=/home
 
     will install UMLS-Interface into /home. The first method above will
     install the modules in /home/lib/perl5/site_perl/5.16.3 (assuming you
@@ -88,21 +99,21 @@ The usual way to install the package is to run the following commands:
     In your perl programs that you may write using the modules, you may need
     to add a line like so
 
-    use lib '/home/lib/perl5/site_perl/5.16.3';
+       use lib '/home/lib/perl5/site_perl/5.16.3';
 
     if you used the first method or
 
-    use lib '/home/lib';
+       use lib '/home/lib';
 
     if you used the second method. By doing this, the installed modules are
     found by your program. To run the runDiscovery.pl program, you would
     need to do
 
-    perl -I/home/lib/perl5/site_perl/5.16.3 runDiscovery.pl
+       perl -I/home/lib/perl5/site_perl/5.16.3 runDiscovery.pl
 
-    or
+       or
 
-    perl -I/home/lib
+       perl -I/home/lib
 
     Of course, you could also add the 'use lib' line to the top of the
     program yourself, but you might not want to do that. You will need to
@@ -143,7 +154,46 @@ The usual way to install the package is to run the following commands:
     on the resulting tab seperated file, if quotes are inlcuded in the
     resulting co-ocurrence matrix file.
 
+  Stage 5: Set up Dummy UMLS::Association Database
+    UMLS::Association requires that a database can be connected to that is
+    in the correct format. Although this database is not required for
+    assocLBD (since co-occurrence data is loaded from a co-occurrence
+    matrix), it is required to run UMLS:Association. If you ran
+    UMLS::Association to generate a co-occurrence matrix, you should be
+    fine. Otherwise you will need to create a dummy database that it can
+    connect to. This can be done in a few steps:
+
+    1) open mysql type mysql at the terminal
+
+    2) create the default database in the correct format, type: CREATE
+    DATABASE cuicounts; use cuicounts; CREATE TABLE N_11(cui_1 CHAR(10),
+    cui_2 CHAR(10), n_11 BIGINT(20));
+
 CONTACT US
     If you have any trouble installing and using assocLBD, please contact us
-    us directly : Sam Henry: henryst at vcu.edu
+    us directly :
+
+        Sam Henry: henryst at vcu.edu
+
+        Bridget McInnes: btmcinnes at vcu.edu
+
+SOFTWARE COPYRIGHT AND LICENSE
+    Copyright (C) 2017 Sam Henry & Bridget McInnes
+
+    This suite of programs is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as published
+    by the Free Software Foundation; either version 2 of the License, or (at
+    your option) any later version.
+
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+    Note: The text of the GNU General Public License is provided in the file
+    'GPL.txt' that you should have received with this distribution.
 

@@ -122,16 +122,17 @@ use LiteratureBasedDiscovery;
 # CONSTANT STRINGS
 ###############################################################################
 
-my $usage = (&showVersion)."\n"
+my $usage = "Error Running LBD, Usage Instructions:\n\n"
+."   runDiscovery LBD_CONFIG_FILE [OPTIONS]\n\n"
 ."FLAGS\n"
-."--debug       Print EVERYTHING to STDERR.\n"
-."--help        Print this help screen.\n"
-."--version     Print the version number\n"
-."Config File OPTIONS\n"
-."--assocConfig        path to the UMLS::Association Config File\n"
-."--interfaceConfig    path to the UMLS::Interface Config File\n"
+."   --debug       Print EVERYTHING to STDERR.\n"
+."   --help        Print this help screen.\n"
+."   --version     Print the version number\n"
+."\nOPTIONS\n"
+."   --assocConfig        path to the UMLS::Association Config File\n"
+."   --interfaceConfig    path to the UMLS::Interface Config File\n"
 ."\nUSAGE EXAMPLES\n"
-."perl runDiscovery ../config/lbd\n";
+."   runDiscovery lbdConfigFile\n";
 ;
 
 #############################################################################
@@ -139,28 +140,38 @@ my $usage = (&showVersion)."\n"
 #############################################################################
 my $DEBUG = 0;      # Prints EVERYTHING. Use with small testing files.        
 my $HELP = '';      # Prints usage and exits if true.
+my $VERSION;
 
 #set default param values
 my %options = ();
-$options{'assocConfig'}  = '../config/association';
-$options{'interfaceConfig'} = '../config/interface';
+$options{'assocConfig'}  = '';
+$options{'interfaceConfig'} = '';
 
 #grab all the options and set values
 GetOptions( 'debug'             => \$DEBUG, 
             'help'              => \$HELP,
+	    'version'           => \$VERSION,
             'assocConfig=s'     => \$options{'assocConfig'},
             'interfaceConfig=s' => \$options{'interfaceConfig'},
 );
+ 
+#Check for version or help
+if ($VERSION) {
+    print "current version is ".(LiteratureBasedDiscovery->version())."\n";
+    exit;
+}     
+if ($HELP) {
+    &showHelp();
+    exit;
+}    
 
-#die $usage unless $#ARGV; #<- use this if args must be provided
-die $usage if $HELP;               
 
 ############################################################################
 #                          Begin Running LBD
 ############################################################################
 
 $options{'lbdConfig'} = shift;
-defined $options{'lbdConfig'} or die ("ERROR: no lbdConfig file defined\n");
+defined $options{'lbdConfig'} or die ($usage);
 
 my $lbd = LiteratureBasedDiscovery->new(\%options);
 $lbd->performLBD();
@@ -195,4 +206,5 @@ sub showHelp() {
     print "                     for your computer to avoid having to specify\n";
     print "                     each time.\n";
     print "--debug              enter debug mode\n";
+    print "--version            prints the current version to screen\n";
 };

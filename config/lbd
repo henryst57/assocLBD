@@ -12,7 +12,7 @@
 
 <rankingProcedure>averageMinimumWeight
 <rankingMethod>chi
-<implicitOutputFile>../results/results_sample
+<implicitOutputFile>../samples/sampleLBDOutput
 
 <linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 <targetAcceptGroups>CHEM,GENE

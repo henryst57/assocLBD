@@ -203,6 +203,29 @@ sub fileToSparseMatrix {
     return \%matrix;
 }
 
+# outputs the matrix to the output file in sparse matrix format, which
+# is a file containing rowKey\tcolKey\tvalue
+# input:  $outFile - a string specifying the output file
+#         $matrixRef - a ref to the sparse matrix containing the data
+# output: nothing, but the matrix is output to file
+sub outputMatrixToFile {
+    my $outFile = shift;
+    my $matrixRef = shift;
+    
+    #open the output file and output fhe matrx
+    open OUT, ">$outFile" or die ("Error opening matrix output file: $outFile\n");
+    my $rowRef;
+    foreach my $rowKey (keys %{$matrixRef}) {
+	$rowRef = ${$matrixRef}{$rowKey};
+	foreach my $colKey (keys %{$rowRef}) {
+	    print OUT "$rowKey\t$colKey\t${$rowRef}{$colKey}\n";
+	}
+    }
+}
+
+
+#Note: Table to sparse is no longer used, but could be useful in the future
+=comment
 #  retreive a table from mysql and convert it to a sparse matrix (a hash of 
 #     hashes)
 #  input : $tableName <- the name of the table to output
@@ -234,25 +257,6 @@ sub tableToSparseMatrix {
     }
     return $matrixRef;
 }
-
-# outputs the matrix to the output file in sparse matrix format, which
-# is a file containing rowKey\tcolKey\tvalue
-# input:  $outFile - a string specifying the output file
-#         $matrixRef - a ref to the sparse matrix containing the data
-# output: nothing, but the matrix is output to file
-sub outputMatrixToFile {
-    my $outFile = shift;
-    my $matrixRef = shift;
-    
-    #open the output file and output fhe matrx
-    open OUT, ">$outFile" or die ("Error opening matrix output file: $outFile\n");
-    my $rowRef;
-    foreach my $rowKey (keys %{$matrixRef}) {
-	$rowRef = ${$matrixRef}{$rowKey};
-	foreach my $colKey (keys %{$rowRef}) {
-	    print OUT "$rowKey\t$colKey\t${$rowRef}{$colKey}\n";
-	}
-    }
-}
+=cut
 
 1;
