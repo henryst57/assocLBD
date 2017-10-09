@@ -19,4 +19,5 @@ print "LBD Open discovery results output to sampleOutput\n\n";
 
 # next, run time slicing 
 print "          TIME SLICING          \n";
-`runDiscovery.pl timeSlicingConfig`;
+`runDiscovery.pl timeSlicingConfig > sampleTimeSliceOutput`;
+print "LBD Time Slicing results output to sampleTimeSliceOutput\n";

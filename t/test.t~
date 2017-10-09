@@ -1,0 +1,27 @@
+#!/usr/local/bin/perl -w
+
+# Before `make install' is performed this script should be runnable with
+# `make test'. After `make install' it should work as `perl t/lch.t'
+
+#!/usr/local/bin/perl -w
+
+# Before `make install' is performed this script should be runnable with
+# `make test'. After `make install' it should work as `perl t/lch.t'
+
+#  This scripts tests all of the functions in Association.pm
+
+
+use strict;
+use warnings;
+use Test::Simple tests => 2;
+
+#Demo file, showing how to run open discovery using the sample data, and how 
+# to perform time slicing evaluation using the sample data
+
+my @lines = `(cd ./samples/; perl runSample.pl) &`;
+#print "lines = @lines\n";
+print "Open Discovery Test: \t\t";
+ok ($lines[2] =~ /LBD Open discovery results output to sampleOutput/);
+
+print "Time Slicing Test: \t\t";
+ok ($lines[5] =~ /LBD Time Slicing results output to sampleTimeSliceOutput/); 

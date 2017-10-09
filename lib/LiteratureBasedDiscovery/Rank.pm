@@ -154,13 +154,11 @@ sub scoreImplicit_averageMinimumWeight {
     my $bcScoresRef = &_getBCPairs($startingMatrixRef, $explicitMatrixRef, $implicitMatrixRef);
 
     #get cui pair scores
-    print "Getting All association scores\n";
     &getBatchAssociationScores(
 	$bcScoresRef, $explicitMatrixRef, $measure, $association,
 	$n1pRef, $np1Ref, $npp);
 
     #find the max a->b score (since there can be multiple a terms)
-    print "Getting A->B Scores\n";
     my %maxABScores = ();
     my ($key1, $key2, $score);
     foreach my $pairKey (keys %{$abScoresRef}) {
@@ -211,7 +209,6 @@ sub scoreImplicit_averageMinimumWeight {
     foreach my $key (keys %cScores) {
 	$cScores{$key} /= $counts{$key}
     }
-    print "   numFinalScores = ".(scalar keys %cScores)."\n";
  
     return \%cScores;
 }

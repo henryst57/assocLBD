@@ -473,7 +473,7 @@ sub performLBD_implicitMatrixRanking {
 # Generates precision and recall values by varying the threshold
 # of the A->B ranking measure.
 # input:  none
-# output: none, but precision and recall values are printed to STDERR
+# output: none, but precision and recall values are printed to STDOUT
 sub timeSlicing_generatePrecisionAndRecall_explicit {
     my $NUM_SAMPLES = 100; #TODO, read fomr file number of samples to average over for timeslicing
     my $self = shift;
@@ -558,7 +558,7 @@ sub timeSlicing_generatePrecisionAndRecall_explicit {
 	#calculate precision and recall
 	my ($precision, $recall) = TimeSlicing::calculatePrecisionRecall(
 	    $implicitMatrixRef, $postCutoffMatrixRef);
-	print STDERR "precision = $precision, recall = $recall\n";
+	print "precision = $precision, recall = $recall\n";
 
 	#calculate averages/min/max only for $i= $numIntervals, which is all terms
 	if ($i == $numIntervals) {
@@ -597,8 +597,8 @@ sub timeSlicing_generatePrecisionAndRecall_explicit {
     } 
 
     #output stats
-    print STDERR "predicted - total, min, max, average = $predictedTotal, $predictedMin, $predictedMax, $predictedAverage\n";
-    print STDERR "true - total, min, max, average = $trueTotal, $trueMin, $trueMax, $trueAverage\n";
+    print "predicted - total, min, max, average = $predictedTotal, $predictedMin, $predictedMax, $predictedAverage\n";
+    print "true - total, min, max, average = $trueTotal, $trueMin, $trueMax, $trueAverage\n";
 }
 
 
@@ -607,12 +607,12 @@ sub timeSlicing_generatePrecisionAndRecall_explicit {
 # mean average precision
 # input:  none
 # output: none, but precision, recall, precision at k, and map values
-#         output to STDERR
+#         output to STDOUT
 sub timeSlicing_generatePrecisionAndRecall_implicit {
     my $NUM_SAMPLES = 200; #TODO, read fomr file number of samples to average over for timeslicing
     my $self = shift;
     my $start; #used to record run times
-    print STDERR "In timeSlicing_generatePrecisionAndRecall_implicit\n";
+    print "In timeSlicing_generatePrecisionAndRecall_implicit\n";
 
     #Get inputs
     my $startAcceptTypesRef = $self->_getAcceptTypes('start');
@@ -623,7 +623,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 # Starting Matrix Creation
 #-----------
     #Get the Explicit Matrix
-    print STDERR "loading explicit\n";
+    print "loading explicit\n";
     my $explicitMatrixRef;
     if(!defined $lbdOptions{'explicitInputFile'}) {
 	die ("ERROR: explicitInputFile must be defined in LBD config file\n");
@@ -631,7 +631,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     $explicitMatrixRef = Discovery::fileToSparseMatrix($lbdOptions{'explicitInputFile'});
 
     #create the starting matrix
-    print STDERR "generating starting\n";
+    print "generating starting\n";
     my $startingMatrixRef 
 	= TimeSlicing::generateStartingMatrix($explicitMatrixRef, \%lbdOptions, $startAcceptTypesRef, $NUM_SAMPLES, $umls_interface);
 #----------
@@ -643,18 +643,18 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     #load or create the gold matrix
     my $goldMatrixRef;
     if (exists $lbdOptions{'goldInputFile'}) {
-	print STDERR "inputting gold\n";
+	print "inputting gold\n";
 	$goldMatrixRef = Discovery::fileToSparseMatrix($lbdOptions{'goldInputFile'});
     }
     else {
-	print STDERR "loading post cutoff\n";
+	print "loading post cutoff\n";
 	$goldMatrixRef = TimeSlicing::loadPostCutOffMatrix($startingMatrixRef, $explicitMatrixRef, $lbdOptions{'postCutoffFileName'});
 
 	#remove explicit knowledge from the post cutoff matrix
 	$goldMatrixRef = Discovery::removeExplicit($startingMatrixRef, $goldMatrixRef);
 
 	#apply a semantic type filter to the post cutoff matrix
-	print STDERR "applying semantic filter to post-cutoff matrix\n";
+	print "applying semantic filter to post-cutoff matrix\n";
 	if ((scalar keys %{$targetAcceptTypesRef}) > 0) {
 	    Filters::semanticTypeFilter_columns(
 		$goldMatrixRef, $targetAcceptTypesRef, $umls_interface);
@@ -663,7 +663,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	#TODO why is the gold matrix outputting with an extra line between samples?
 	#output the gold matrix
 	if (exists $lbdOptions{'goldOutputFile'}) {
-	    print STDERR "outputting gold\n";
+	    print "outputting gold\n";
 	    Discovery::outputMatrixToFile($lbdOptions{'goldOutputFile'}, $goldMatrixRef); 
 	}
     }
@@ -676,7 +676,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     my %abPairsWithScores = ();
     if ($lbdOptions{'rankingProcedure'} eq 'averageMinimumWeight'
 		|| $lbdOptions{'rankingProcedure'} eq 'ltc_amw') {
-	print STDERR "getting AB scores\n";
+	print "getting AB scores\n";
 
 	#apply semantic type filter to columns only
 	if ((scalar keys %{$linkingAcceptTypesRef}) > 0) {
@@ -699,7 +699,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 #------------
     #load or threshold the matrix
     if (exists $lbdOptions{'thresholdedMatrix'}) {
-	print STDERR "loading thresholded matrix\n";
+	print "loading thresholded matrix\n";
 	$explicitMatrixRef = (); #clear (for memory)
 	$explicitMatrixRef = Discovery::fileToSparseMatrix($lbdOptions{'thresholdedMatrix'});
     }
@@ -707,7 +707,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     #NOTE, we must threshold the entire matrix because that is how we are calculating association scores
 
     #Apply Semantic Type Filter to the explicit matrix
-    print STDERR "applying semantic filter to explicit matrix\n";
+    print "applying semantic filter to explicit matrix\n";
     if ((scalar keys %{$linkingAcceptTypesRef}) > 0) {
 	Filters::semanticTypeFilter_rowsAndColumns(
 	    $explicitMatrixRef, $linkingAcceptTypesRef, $umls_interface);
@@ -719,24 +719,24 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     #load or create the predictions matrix
     my $predictionsMatrixRef;
     if (exists $lbdOptions{'predictionsInFile'}) {
-	print STDERR "loading predictions\n";
+	print "loading predictions\n";
 	$predictionsMatrixRef = Discovery::fileToSparseMatrix($lbdOptions{'predictionsInFile'});
     }
     else {
-	print STDERR "generating predictions\n";
+	print "generating predictions\n";
 
 	#generate implicit knowledge
-	print STDERR "Squaring Matrix\n";
+	print "Squaring Matrix\n";
 	$predictionsMatrixRef = Discovery::findImplicit(
 	    $explicitMatrixRef, $startingMatrixRef);
 
 	#Remove Known Connections
-	print STDERR "Removing Known from Predictions\n";
+	print "Removing Known from Predictions\n";
 	$predictionsMatrixRef 
 	    = Discovery::removeExplicit($startingMatrixRef, $predictionsMatrixRef);
 
 	#apply a semantic type filter to the predictions matrix
-	print STDERR "Applying Semantic Filter to Predictions\n";
+	print "Applying Semantic Filter to Predictions\n";
 	if ((scalar keys %{$targetAcceptTypesRef}) > 0) {
 	    Filters::semanticTypeFilter_columns(
 		$predictionsMatrixRef, $targetAcceptTypesRef, $umls_interface);
@@ -744,7 +744,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 
 	#save the implicit knowledge matrix to file
 	if (exists ($lbdOptions{'predictionsOutFile'})) {
-	    print STDERR "outputting predictions\n";
+	    print "outputting predictions\n";
 	    Discovery::outputMatrixToFile($lbdOptions{'predictionsOutFile'}, $predictionsMatrixRef);
 	}
     }
@@ -766,7 +766,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     # term individually
     my %rowRanks = ();
     my ($n1pRef, $np1Ref, $npp);
-    print STDERR "getting row ranks\n";
+    print "getting row ranks\n";
     foreach my $rowKey (keys %{$predictionsMatrixRef}) { 
 	#grab rows from start and implicit matrices
 	my %startingRow = ();
@@ -818,49 +818,49 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 #-----------------------------------
 
     #calculate precision and recall
-    print STDERR "calculating precision and recall\n";
+    print "calculating precision and recall\n";
     my ($precisionRef, $recallRef) = TimeSlicing::calculatePrecisionAndRecall_implicit(
 	$predictionsMatrixRef, $goldMatrixRef, \%rowRanks);
 
     #output precision and recall
-    print STDERR "----- average precision at 10% recall intervals (i recall precision) ----> \n";
+    print "----- average precision at 10% recall intervals (i recall precision) ----> \n";
     foreach my $i (sort {$a <=> $b} keys %{$precisionRef}) {
-	print STDERR "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
+	print "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
     }
     print "\n";
     
 #-------------------------------------------
     
     #calculate mean average precision
-    print STDERR "calculating mean average precision\n";
+    print "calculating mean average precision\n";
     my $map = TimeSlicing::calculateMeanAveragePrecision(
 	$goldMatrixRef, \%rowRanks);
     #output mean average precision
-    print STDERR "---------- mean average precision ---------------> \n";
-    print STDERR "      MAP = $map\n";
+    print "---------- mean average precision ---------------> \n";
+    print "      MAP = $map\n";
     print "\n";
 
 #-------------------------------------------
     
     #calculate precision at k
-    print STDERR "calculating precision at k\n";
+    print "calculating precision at k\n";
     my $precisionAtKRef = TimeSlicing::calculatePrecisionAtK($goldMatrixRef, \%rowRanks);
     #output precision at k
-    print STDERR "---------- mean precision at k intervals ---------------> \n";
+    print "---------- mean precision at k intervals ---------------> \n";
     foreach my $k (sort {$a <=> $b} keys %{$precisionAtKRef}) {
-	print STDERR"      $k ${$precisionAtKRef}{$k}\n";
+	print "      $k ${$precisionAtKRef}{$k}\n";
     }
     print "\n";
 
 #-------------------------------------------
     
     #calculate cooccurrences at k
-    print STDERR "calculating mean cooccurrences at k\n";
+    print "calculating mean cooccurrences at k\n";
     my $cooccurrencesAtKRef = TimeSlicing::calculateMeanCooccurrencesAtK($goldMatrixRef, \%rowRanks);
     #output cooccurrences at k
-    print STDERR "---------- mean cooccurrences at k intervals ---------------> \n";
+    print "---------- mean cooccurrences at k intervals ---------------> \n";
     foreach my $k (sort {$a <=> $b} keys %{$cooccurrencesAtKRef}) {
-	print STDERR"      $k ${$cooccurrencesAtKRef}{$k}\n";
+	print "      $k ${$cooccurrencesAtKRef}{$k}\n";
     }
     print "\n";
 }
