@@ -27,14 +27,7 @@ samples/timeSlicing
 samples/configFileSamples/UMLSAssociationConfig
 samples/configFileSamples/UMLSInterfaceConfig
 samples/configFileSamples/UMLSInterfaceInternalConfig
-t/lbdConfig
-t/postCutoffMatrix
-t/predictionsMatrix
-t/sampleExplicitMatrix
-t/sampleGoldMatrix
 t/test.t
-t/timeSliceCuiList
-t/timeSlicingConfig
 utils/runDiscovery.pl
 utils/datasetCreator/applyMaxThreshold.pl
 utils/datasetCreator/applyMinThreshold.pl

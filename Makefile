@@ -192,18 +192,18 @@ TO_INST_PM = lib/LiteratureBasedDiscovery.pm \
 	lib/LiteratureBasedDiscovery/Rank.pm \
 	lib/LiteratureBasedDiscovery/TimeSlicing.pm
 
-PM_TO_BLIB = lib/LiteratureBasedDiscovery/TimeSlicing.pm \
-	blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm \
-	lib/LiteratureBasedDiscovery/Discovery.pm \
-	blib/lib/LiteratureBasedDiscovery/Discovery.pm \
+PM_TO_BLIB = lib/LiteratureBasedDiscovery/Evaluation.pm \
+	blib/lib/LiteratureBasedDiscovery/Evaluation.pm \
 	lib/LiteratureBasedDiscovery.pm \
 	blib/lib/LiteratureBasedDiscovery.pm \
+	lib/LiteratureBasedDiscovery/Rank.pm \
+	blib/lib/LiteratureBasedDiscovery/Rank.pm \
+	lib/LiteratureBasedDiscovery/Discovery.pm \
+	blib/lib/LiteratureBasedDiscovery/Discovery.pm \
 	lib/LiteratureBasedDiscovery/Filters.pm \
 	blib/lib/LiteratureBasedDiscovery/Filters.pm \
-	lib/LiteratureBasedDiscovery/Evaluation.pm \
-	blib/lib/LiteratureBasedDiscovery/Evaluation.pm \
-	lib/LiteratureBasedDiscovery/Rank.pm \
-	blib/lib/LiteratureBasedDiscovery/Rank.pm
+	lib/LiteratureBasedDiscovery/TimeSlicing.pm \
+	blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -474,22 +474,22 @@ clean_subdirs :
 
 clean :: clean_subdirs
 	- $(RM_F) \
-	  MYMETA.yml core.[0-9] \
-	  core core.*perl.*.? \
-	  $(INST_ARCHAUTODIR)/extralibs.ld tmon.out \
-	  core.[0-9][0-9][0-9][0-9][0-9] blibdirs.ts \
-	  perl$(EXE_EXT) $(MAKE_APERL_FILE) \
-	  perlmain.c MYMETA.json \
-	  so_locations $(BASEEXT).def \
-	  mon.out *$(OBJ_EXT) \
-	  $(BASEEXT).exp *perl.core \
-	  core.[0-9][0-9][0-9] core.[0-9][0-9][0-9][0-9] \
-	  pm_to_blib.ts $(BASEEXT).bso \
-	  pm_to_blib perl.exe \
-	  $(BOOTSTRAP) lib$(BASEEXT).def \
-	  $(INST_ARCHAUTODIR)/extralibs.all $(BASEEXT).x \
-	  core.[0-9][0-9] perl \
-	  *$(LIB_EXT) 
+	  pm_to_blib core.[0-9][0-9][0-9] \
+	  core.[0-9][0-9][0-9][0-9][0-9] $(BASEEXT).x \
+	  tmon.out core.[0-9] \
+	  $(BOOTSTRAP) perl.exe \
+	  blibdirs.ts $(MAKE_APERL_FILE) \
+	  core.[0-9][0-9][0-9][0-9] so_locations \
+	  core.[0-9][0-9] core \
+	  perlmain.c $(BASEEXT).bso \
+	  MYMETA.json $(BASEEXT).exp \
+	  $(INST_ARCHAUTODIR)/extralibs.all *$(LIB_EXT) \
+	  perl MYMETA.yml \
+	  core.*perl.*.? *perl.core \
+	  pm_to_blib.ts lib$(BASEEXT).def \
+	  mon.out perl$(EXE_EXT) \
+	  *$(OBJ_EXT) $(INST_ARCHAUTODIR)/extralibs.ld \
+	  $(BASEEXT).def 
 	- $(RM_RF) \
 	  blib 
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
@@ -866,12 +866,12 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/LiteratureBasedDiscovery/TimeSlicing.pm blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm \
-	  lib/LiteratureBasedDiscovery/Discovery.pm blib/lib/LiteratureBasedDiscovery/Discovery.pm \
-	  lib/LiteratureBasedDiscovery.pm blib/lib/LiteratureBasedDiscovery.pm \
-	  lib/LiteratureBasedDiscovery/Filters.pm blib/lib/LiteratureBasedDiscovery/Filters.pm \
 	  lib/LiteratureBasedDiscovery/Evaluation.pm blib/lib/LiteratureBasedDiscovery/Evaluation.pm \
-	  lib/LiteratureBasedDiscovery/Rank.pm blib/lib/LiteratureBasedDiscovery/Rank.pm 
+	  lib/LiteratureBasedDiscovery.pm blib/lib/LiteratureBasedDiscovery.pm \
+	  lib/LiteratureBasedDiscovery/Rank.pm blib/lib/LiteratureBasedDiscovery/Rank.pm \
+	  lib/LiteratureBasedDiscovery/Discovery.pm blib/lib/LiteratureBasedDiscovery/Discovery.pm \
+	  lib/LiteratureBasedDiscovery/Filters.pm blib/lib/LiteratureBasedDiscovery/Filters.pm \
+	  lib/LiteratureBasedDiscovery/TimeSlicing.pm blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

@@ -3,11 +3,6 @@
 # Before `make install' is performed this script should be runnable with
 # `make test'. After `make install' it should work as `perl t/lch.t'
 
-#!/usr/local/bin/perl -w
-
-# Before `make install' is performed this script should be runnable with
-# `make test'. After `make install' it should work as `perl t/lch.t'
-
 use strict;
 use warnings;
 use Test::Simple tests => 2;

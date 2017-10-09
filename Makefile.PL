@@ -10,9 +10,6 @@ use ExtUtils::MakeMaker;
 my $author1 = 'Sam Henry <henryst@vcu.edu>'; 
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
-
-my $author1 = 'Sam Henry <henryst@vcu.edu>';
-
 WriteMakefile(
               'NAME'		  => 'assocLBD',
               'VERSION_FROM' => 'lib/LiteratureBasedDiscovery.pm',
