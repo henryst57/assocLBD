@@ -46,4 +46,3 @@ foreach my $cui(@cuis) {
 foreach my $cui(@cuis) {
     `perl runDiscovery.pl $inputDirectory$cui`;
 }
-

@@ -475,7 +475,6 @@ sub scoreImplicit_fromImplicitMatrix {
     #@NP1 is the number of co-occurrences of a C term with any term ... so sum of XXX\tCTerm\tVal for each cTerm
     #@N1P is the number of co-occurrences of any A term ... so sum of anyATerm\tXXX\t
     #N11{Cterm} is the sum of anyATerm\tCTerm\tVal
-    print "Getting Co-occurrence Values\n";
     seek IN, 0,0; #reset to the beginning of the implicit file
 
     #iterate over the lines of interest, and grab values
@@ -518,7 +517,6 @@ sub scoreImplicit_fromImplicitMatrix {
 ######################################
     # Calculate Association for each c term
 ######################################
-    print "calculating associations\n";
     my %associationScores = ();
     foreach my $cTerm(keys %cTerms) {
 	$associationScores{$cTerm} = 
@@ -555,7 +553,6 @@ sub scoreImplicit_fromAllPairs {
 				  $explicitMatrixRef, $implicitMatrixRef);
 
     #get bc pairs scores
-    print "Getting All association scores\n";
     &getBatchAssociationScores(
 	$bcPairsRef, $explicitMatrixRef, $measure, $association,
 	$n1pRef, $np1Ref, $npp);
@@ -569,7 +566,6 @@ sub scoreImplicit_fromAllPairs {
     my $value;
     my $implicitCui;
     my ($key1,$key2);
-    print "Getting Max Values\n";
     foreach my $pairKey (keys %{$bcPairsRef}) {	
 
 	#only compare association scores that are valid
@@ -655,11 +651,44 @@ sub rankDescending {
     #grab the input
     my $scoresRef = shift;
 
-    #order in descending order
+    #order in descending order, and use the CUI string as a tiebreaker
     my @rankedCuis = ();
+    my @tiedCuis = ();
+    my $currentScore = -1;
     foreach my $cui (
-	sort { ${$scoresRef}{$b} <=> ${$scoresRef}{$a} } 
+	#sort function to sort by value
+	sort {${$scoresRef}{$b} <=> ${$scoresRef}{$a}} 
 	keys %{$scoresRef}) {
+
+	#see if this cui is tied with previuos
+	if (${$scoresRef}{$cui} != $currentScore) {
+	    #this cui is not tied with previuos,
+	    # so save all previuos ones to the ranked array
+	    # Here, we sort by key name, so the tie breaker
+	    # is the cui name itself. This is arbitrary but 
+	    # allows for results to be precisely replicated.
+	    # UPDATE: Almost precisely replicated. There is 
+	    # a numerical stability problem so that the sort
+	    # by value will chunk out differently depending 
+	    # on the run. So one run something with a values of 
+	    # 0.66666666666667 will be sorted above another item
+	    # with that same value, the next run sorted with it.
+	    # this is essentially unavoidable without implementing
+	    # a tolerance threshold which seems like overkill
+	    foreach my $tiedCui (sort @tiedCuis) {
+		push @rankedCuis, $tiedCui;
+	    }
+
+	    #clear the list of tied CUIs
+	    @tiedCuis = ();
+	}
+	#add current CUI to the tied CUI list and update the
+	# current score
+	$currentScore = ${$scoresRef}{$cui};
+	push @tiedCuis, $cui;
+    }
+    #add any remaining tied cuis to the final list
+    foreach my $cui (sort @tiedCuis) {
 	push @rankedCuis, $cui;
     }
 

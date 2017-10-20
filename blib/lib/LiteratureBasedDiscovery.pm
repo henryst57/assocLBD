@@ -774,8 +774,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	my %implicitRow = ();
 	$implicitRow{$rowKey} = ${$predictionsMatrixRef}{$rowKey};
 
-	#Score Implicit Connections
-	$start = time();	
+	#Score Implicit Connections	
 	my $scoresRef;
 	if ($lbdOptions{'rankingProcedure'} eq 'allPairs') {
 	    #get stats just a single time
@@ -806,7 +805,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	}    
 	
 	#Rank Implicit Connections
-	$start = time();
 	my $ranksRef = Rank::rankDescending($scoresRef);
 
 	#save the row ranks
@@ -832,7 +830,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 #-------------------------------------------
     
     #calculate mean average precision
-    print "calculating mean average precision\n";
     my $map = TimeSlicing::calculateMeanAveragePrecision(
 	$goldMatrixRef, \%rowRanks);
     #output mean average precision

@@ -28,6 +28,8 @@ samples/configFileSamples/UMLSAssociationConfig
 samples/configFileSamples/UMLSInterfaceConfig
 samples/configFileSamples/UMLSInterfaceInternalConfig
 t/test.t
+t/goldSampleOutput
+t/goldSampleTimeSliceOutput
 utils/runDiscovery.pl
 utils/datasetCreator/applyMaxThreshold.pl
 utils/datasetCreator/applyMinThreshold.pl

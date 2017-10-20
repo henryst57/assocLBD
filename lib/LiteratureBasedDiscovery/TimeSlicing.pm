@@ -669,6 +669,8 @@ sub calculateMeanCooccurrencesAtK {
 	$meanCooccurrenceCount{$k} = 0;
 
 	#average the mean co-occurrenes over all terms
+	#  the true matrix contains only rows for the cuis being tested 
+        #  or in time slicing
 	foreach my $rowKey (keys %{$trueMatrixRef}) {
 	    my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
 	    
@@ -710,7 +712,5 @@ sub calculateMeanCooccurrencesAtK {
     #return the mean precisions at k
     return \%meanCooccurrenceCount;
 }
-
-
 
 1;
