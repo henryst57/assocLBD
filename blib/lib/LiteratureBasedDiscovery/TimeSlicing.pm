@@ -31,6 +31,77 @@ use warnings;
 use lib '/home/share/packages/assoc_lbd/lib/';
 use LiteratureBasedDiscovery::Discovery;
 
+
+#
+# Calculates and outputs to STDOUT Time Slicing evaluation stats of
+# precision and recal at $numIntervals intervals, Mean Average Precision
+# (MAP), precision at k, and frequency at k
+# input:  $trueMatrixRef <- a ref to a hash of true discoveries
+#         $rowRanksRef <- a ref to a hash of arrays of ranked predictions. 
+#                         Each hash key is a cui,  each hash element is an 
+#                         array of ranked predictions for that cui. The ranked 
+#                         predictions are cuis are ordered in descending order 
+#                         based on association. (from Rank::RankDescending)
+#         $numIntervals <- the number of recall intervals to generate
+sub outputTimeSlicingResults {
+    #grab the input
+    my $goldMatrixRef = shift;
+    my $rowRanksRef = shift;
+    my $numIntervals = shift;
+
+
+#calculate and output stats
+#------------------------------------------
+
+ #calculate precision and recall
+    print "calculating precision and recall\n";
+    my ($precisionRef, $recallRef) = &calculatePrecisionAndRecall_implicit(
+	 $goldMatrixRef, $rowRanksRef, $numIntervals);
+
+    #output precision and recall
+    print "----- average precision at 10% recall intervals (i recall precision) ----> \n";
+    foreach my $i (sort {$a <=> $b} keys %{$precisionRef}) {
+	print "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
+    }
+    print "\n";
+    
+#-------------------------------------------
+    
+    #calculate mean average precision
+    my $map = &calculateMeanAveragePrecision(
+	$goldMatrixRef, $rowRanksRef);
+    #output mean average precision
+    print "---------- mean average precision ---------------> \n";
+    print "      MAP = $map\n";
+    print "\n";
+
+#-------------------------------------------
+    
+    #calculate precision at k
+    print "calculating precision at k\n";
+    my $precisionAtKRef = &calculatePrecisionAtK($goldMatrixRef, $rowRanksRef);
+    #output precision at k
+    print "---------- mean precision at k intervals ---------------> \n";
+    foreach my $k (sort {$a <=> $b} keys %{$precisionAtKRef}) {
+	print "      $k ${$precisionAtKRef}{$k}\n";
+    }
+    print "\n";
+
+#-------------------------------------------
+    
+    #calculate cooccurrences at k
+    print "calculating mean cooccurrences at k\n";
+    my $cooccurrencesAtKRef = &calculateMeanCooccurrencesAtK($goldMatrixRef, $rowRanksRef);
+    #output cooccurrences at k
+    print "---------- mean cooccurrences at k intervals ---------------> \n";
+    foreach my $k (sort {$a <=> $b} keys %{$cooccurrencesAtKRef}) {
+	print "      $k ${$cooccurrencesAtKRef}{$k}\n";
+    }
+    print "\n";
+
+}
+
+
 # loads a list of cuis for use in time slicing from file
 # the CUI file contains a line seperated list of CUIs
 # input:  $cuiFileName <- a string specifying the file to load cuis from
@@ -434,8 +505,7 @@ sub grabKHighestRankedSamples {
 
 # calculates precision and recall at $numIntervals (e.g. 10 for 10%) recall 
 # intervals using an implicit ranking threshold
-# input:  $predictionMatrixRef <- a ref to a hash of predicted discoveries
-#         $trueMatrixRef <- a ref to a hash of true discoveries
+# input:  $trueMatrixRef <- a ref to a hash of true discoveries
 #         $rowRanksRef <- a ref to a hash of arrays of ranked predictions. 
 #                         Each hash key is a cui,  each hash element is an 
 #                         array of ranked predictions for that cui. The ranked 
@@ -447,10 +517,9 @@ sub grabKHighestRankedSamples {
 #                                    the value is the precision and recall 
 #                                    respectively
 sub calculatePrecisionAndRecall_implicit {
-    my $predictionMatrixRef = shift; #a ref to the predictions matrix
     my $trueMatrixRef = shift; #a ref to the true matrix
     my $rowRanksRef = shift; #a ref to ranked predictions, each hash element are the predictions for a single cui, at each element is an array of cuis ordered by their rank
-    my $numIntervals = 10; #the recall intervals to test at
+    my $numIntervals = shift; #the recall intervals to test at
 
     #find precision and recall curves for each cui that is being predicted
     #  take the sum of precisions, then average after the loop
@@ -458,11 +527,10 @@ sub calculatePrecisionAndRecall_implicit {
     my %recall = ();
     foreach my $rowKey (keys %{$trueMatrixRef}) {
 	my $trueRef = ${$trueMatrixRef}{$rowKey}; #a list of true discoveries
-	my $predictionsRef = ${$predictionMatrixRef}{$rowKey}; #a list of predicted true discoveries
 	my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
 	
 	#get the number of predicted discoveries and true discoveries
-	my $numPredictions = scalar keys %{$predictionsRef};
+	my $numPredictions = scalar keys %{$rankedPredictionsRef};
 	my $numTrue = scalar keys %{$trueRef};
 
 	#skip if there are NO new discoveries for this start term

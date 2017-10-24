@@ -1,24 +1,41 @@
-`perl runDiscovery.pl ../amiaConfig/rayFish/freqAMW_window8_noOrder`;
-print STDERR "DONE - rayFish AMW\n";
-`perl runDiscovery.pl ../amiaConfig/rayFish/freqMax_window8_noOrder`;
-print STDERR "DONE - rayFish MAX\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_ltc`;
+print STDERR "DONE - 1999_1999 LTC\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_lta_ll`;
+print STDERR "DONE - 1999_1999 ll\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_lta_x2`;
+print STDERR "DONE - 1999_1999 x2\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_lta_dice`;
+print STDERR "DONE - 1999_1999 dice\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_lta_odds`;
+print STDERR "DONE - 1999_1999 odds\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1999_1999/implicit_lta_leftFisher`;
+print STDERR "DONE - 1999_1999 lf\n";
+print STDERR "DONE 1999-1999\n";
 
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_ltc`;
+print STDERR "DONE - 1995_1999 LTC\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_lta_ll`;
+print STDERR "DONE - 1995_1999 ll\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_lta_x2`;
+print STDERR "DONE - 1995_1999 x2\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_lta_dice`;
+print STDERR "DONE - 1995_1999 dice\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_lta_odds`;
+print STDERR "DONE - 1995_1999 odds\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1995_1999/implicit_lta_leftFisher`;
+print STDERR "DONE - 1995_1999 lf\n";
+print STDERR "DONE 1995-1999\n";
 
-`perl runDiscovery.pl ../amiaConfig/miMag/freqAMW_window8_noOrder`;
-print STDERR "DONE - miMag AMW\n";
-`perl runDiscovery.pl ../amiaConfig/miMag/freqMax_window8_noOrder`;
-print STDERR "DONE - miMag MAX\n";
-
-`perl runDiscovery.pl ../amiaConfig/somArg/freqAMW_window8_noOrder`;
-print STDERR "DONE - somArg AMW\n";
-`perl runDiscovery.pl ../amiaConfig/somArg/freqMax_window8_noOrder`;
-print STDERR "DONE - somArg MAX\n";
-
-
-`perl runDiscovery.pl ../amiaConfig/rayFish/ltc_window8_noOrder`;
-print STDERR "DONE - rayFish LTC\n";
-`perl runDiscovery.pl ../amiaConfig/miMag/ltc_window8_noOrder`;
-print STDERR "DONE - miMag LTC\n";
-`perl runDiscovery.pl ../amiaConfig/somArg/ltc_window8_noOrder`;
-print STDERR "DONE - somArg LTC\n";
-
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_ltc`;
+print STDERR "DONE - 1985_1999 LTC\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_lta_ll`;
+print STDERR "DONE - 1985_1999 ll\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_lta_x2`;
+print STDERR "DONE - 1985_1999 x2\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_lta_dice`;
+print STDERR "DONE - 1985_1999 dice\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_lta_odds`;
+print STDERR "DONE - 1985_1999 odds\n";
+`perl runDiscovery.pl ../amiaConfig/timeSlicing/reduced/1985_1999/implicit_lta_leftFisher`;
+print STDERR "DONE - 1985_1999 lf\n";
+print STDERR "DONE 1985-1999\n";

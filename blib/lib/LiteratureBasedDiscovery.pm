@@ -811,55 +811,8 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	$rowRanks{$rowKey} = $ranksRef;
     }
 
-#-----------------------------------
-# Precision and Recall Stats
-#-----------------------------------
-
-    #calculate precision and recall
-    print "calculating precision and recall\n";
-    my ($precisionRef, $recallRef) = TimeSlicing::calculatePrecisionAndRecall_implicit(
-	$predictionsMatrixRef, $goldMatrixRef, \%rowRanks);
-
-    #output precision and recall
-    print "----- average precision at 10% recall intervals (i recall precision) ----> \n";
-    foreach my $i (sort {$a <=> $b} keys %{$precisionRef}) {
-	print "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
-    }
-    print "\n";
-    
-#-------------------------------------------
-    
-    #calculate mean average precision
-    my $map = TimeSlicing::calculateMeanAveragePrecision(
-	$goldMatrixRef, \%rowRanks);
-    #output mean average precision
-    print "---------- mean average precision ---------------> \n";
-    print "      MAP = $map\n";
-    print "\n";
-
-#-------------------------------------------
-    
-    #calculate precision at k
-    print "calculating precision at k\n";
-    my $precisionAtKRef = TimeSlicing::calculatePrecisionAtK($goldMatrixRef, \%rowRanks);
-    #output precision at k
-    print "---------- mean precision at k intervals ---------------> \n";
-    foreach my $k (sort {$a <=> $b} keys %{$precisionAtKRef}) {
-	print "      $k ${$precisionAtKRef}{$k}\n";
-    }
-    print "\n";
-
-#-------------------------------------------
-    
-    #calculate cooccurrences at k
-    print "calculating mean cooccurrences at k\n";
-    my $cooccurrencesAtKRef = TimeSlicing::calculateMeanCooccurrencesAtK($goldMatrixRef, \%rowRanks);
-    #output cooccurrences at k
-    print "---------- mean cooccurrences at k intervals ---------------> \n";
-    foreach my $k (sort {$a <=> $b} keys %{$cooccurrencesAtKRef}) {
-	print "      $k ${$cooccurrencesAtKRef}{$k}\n";
-    }
-    print "\n";
+    #output the results at 10 intervals
+    TimeSlicing::outputTimeSlicingResults($goldMatrixRef, \%rowRanks, 10);
 }
 
 
