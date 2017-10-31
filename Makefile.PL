@@ -1,7 +1,7 @@
-# This -*- perl -*- script writes the Makefile for assocLBD
+# This -*- perl -*- script writes the Makefile for ALBD
 # (Last Updated 09/25/2017 -- Sam)
 #
-# Generates the Makefile for the assocLBD Perl modules. 
+# Generates the Makefile for the ALBD Perl modules. 
 #
 # ----------------------------------------------------------------------
 
