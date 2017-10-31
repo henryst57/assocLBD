@@ -21,5 +21,5 @@
 <cuiListFileName>/home/henryst/lbdData/timeSliceCuiList
 <explicitInputFile>/home/henryst/lbdData/groupedData/reg/1995_1999_window8_noOrder
 
-<goldInputFile>/home/henryst/lbdData/goldMatrix_1995_1999
+<goldInputFile>/home/henryst/lbdData/goldMatrix
 <predictionsInFile>/home/henryst/lbdData/predictions_1995_1999

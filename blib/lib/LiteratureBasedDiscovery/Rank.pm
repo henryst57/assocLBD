@@ -1,4 +1,4 @@
-# assocLBD::Rank
+# ALBD::Rank
 #
 # Library module of ranking methods for LBD
 #
@@ -584,6 +584,11 @@ sub scoreImplicit_fromAllPairs {
     }
     
     return \%scores;
+}
+
+
+sub scoreImplicit_minimumWeightAssociation {
+
 }
 
 

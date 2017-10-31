@@ -1,10 +1,10 @@
 =head1 NAME
 
-Todo List for assoc_LBD
+Todo List for ALBD
 
 =head1 SYNOPSIS
 
-Plans for future versions of assoc_LDB and known bugs or problems that will be fixed in the future
+Plans for future versions of ALDB and known bugs or problems that will be fixed in the future
 
 =head1 TO DO LIST
 

@@ -1,20 +1,20 @@
 =head1 NAME
 
-assoc_LBD README
+ALBD README
 
 =head2 SYNOPSIS
 
     This package consists of Perl modules along with supporting Perl
     programs that perform Literature Based Discovery (LBD). The core 
     data from which LBD is performed are co-occurrences matrices 
-    generated from UMLS::Association. assocLBD is based on the ABC
+    generated from UMLS::Association. ALBD is based on the ABC
     co-occurrence model. Many options can be specified, and many
     ranking methods are available. The novel ranking methods that use
     association measure are available as well as frequency based
     ranking methods. See samples/lbd for more info. Can perform open and
     closed LBD as well as time slicing evaluation.
 
-    assoc_LBD requires UMLS::Association both to compute the co-occurrence
+    ALBD requires UMLS::Association both to compute the co-occurrence
     database that the co-occurrence matrix is derived from, but also for 
     ranking the generated C terms.
 
@@ -50,13 +50,13 @@ assoc_LBD README
 
 =head2 CO-OCCURRENCE MATRIX SETUP
 
-assocLBD requires that a co-occurrence matrix of CUIs has been created. This matrix is stored as a flat file, in a sparse matrix format such that each line contains three tab seperated values, cui_1, cui_2, n_11 = the count of their co-occurrences. Any matrix with that format is acceptable, however the intended method of matrix generation is to convert a UMLS::Association database into a flat matrix file. These databases are created using the CUICollector tool of UMLS::Association, and are run over the MetaMapped Medline baseline. With that file, run utils/datasetCreator/fromMySQL/dbToTab.pl to convert the desired database into a matrix file. Notice that code in dbToTab.pl is just a sample mysql command. If the input database is created in another method, a different command may be needed. As long as the resulting co-occurrence matrix is in the correct format LBD may be run on it. This allows flexibility in where co-occurrence information comes from.
+ALBD requires that a co-occurrence matrix of CUIs has been created. This matrix is stored as a flat file, in a sparse matrix format such that each line contains three tab seperated values, cui_1, cui_2, n_11 = the count of their co-occurrences. Any matrix with that format is acceptable, however the intended method of matrix generation is to convert a UMLS::Association database into a flat matrix file. These databases are created using the CUICollector tool of UMLS::Association, and are run over the MetaMapped Medline baseline. With that file, run utils/datasetCreator/fromMySQL/dbToTab.pl to convert the desired database into a matrix file. Notice that code in dbToTab.pl is just a sample mysql command. If the input database is created in another method, a different command may be needed. As long as the resulting co-occurrence matrix is in the correct format LBD may be run on it. This allows flexibility in where co-occurrence information comes from.
 
 Note: utils/datasetCreator/fromMySQL/removeQuotes.pl may need to be run on the resulting tab seperated file, if quotes are inlcuded in the resulting co-ocurrence matrix file.
 
 =head2 Set Up Dummy UMLS::Association Database
 
-UMLS::Association requires that a database can be connected to that is in the correct format. Although this database is not required for assocLBD (since co-occurrence data is loaded from a co-occurrence matrix), it is required to run UMLS:Association. If you ran UMLS::Association to generate a co-occurrence matrix, you should be fine. Otherwise you will need to create a dummy database that it can connect to. This can be done in a few steps:
+UMLS::Association requires that a database can be connected to that is in the correct format. Although this database is not required for ALBD (since co-occurrence data is loaded from a co-occurrence matrix), it is required to run UMLS:Association. If you ran UMLS::Association to generate a co-occurrence matrix, you should be fine. Otherwise you will need to create a dummy database that it can connect to. This can be done in a few steps:
 
 1) open mysql
      type mysql at the terminal
@@ -69,7 +69,7 @@ UMLS::Association requires that a database can be connected to that is in the co
 
 =head2 INITIALIZING THE MODULE
 
-To create an instance of the assoc_LBD object, using default values for all configuration options:
+To create an instance of the ALBD object, using default values for all configuration options:
     %options = ();
     $options{'lbdConfig'} = 'configFile';
     my $lbd = LiteratureBasedDiscovery->new(\%options);
@@ -85,8 +85,8 @@ The following configuration options are also provided though:
 These are passed through a hash. For example:
 
     my %options = ();
-    $options{'assocConfig'}   = '/home/share/assocLBD/config/association';
-    $options{'interfaceConfig'} = '/home/shar/assocLBD/config/interface';
+    $options{'assocConfig'}   = '/home/share/ALBD/config/association';
+    $options{'interfaceConfig'} = '/home/shar/ALBD/config/interface';
     $options{'lbdConfig'} = 'configFile'
     my $lbd = LiteratureBasedDiscovery->new(\%options);
     $lbd->performLBD();
@@ -128,7 +128,7 @@ metaAnalysis.pl			-- determines the number of rows, columns, vocabulary size, an
 
 There is another folder containing scripts to square co-occurrence matrices. Squaring an explicit (A to B) co-occurrence matrix results in a co-occurrence matrix containing all implicit (A to C) connections. This is useful for time slicing and other analysis. Removal of the original explicit matrix is an additional step that is required if you wish to create a predictions matrix file for every CUI. This can be done with the removeExplicit.pl script. Squaring a co-occurrence matrix can be very computationally expensive, both in terms of ram and cpu. For this reason MATLAB scripts are preferred over perl scripts. Even using MATLAB ram can become an issue, and squaring sections of a matrix and combining them into a single output matrix may be necassary, but takes much longer. Scripts in the squaring folder include:
 
-convertForSquaring_MATLAB.pl 	   -- functions to convert to and from assocLBD and MATLAB sparse matrix formats
+convertForSquaring_MATLAB.pl 	   -- functions to convert to and from ALBD and MATLAB sparse matrix formats
 
 squareMatrix.m			   -- MATLAB script to square a matrix while holding everything in ram. Faster, but requires more ram. 
 
@@ -136,9 +136,9 @@ squareMatrix_partial.m		   -- MATLAB script to square a matrix in chunks. Only l
 
 squareMatrix_perl.pl		    -- squares a matrix in perl, but requires the most ram of any squaring method. The easiest method to use, but only practical for small datasets.
 
-The fromMySQL folder contains scripts that convery UMLS::Association databases to assocLBD co-occurrence matrices. The files contained are:
+The fromMySQL folder contains scripts that convery UMLS::Association databases to ALBD co-occurrence matrices. The files contained are:
 
-dbToTab.pl    	     	      	     -- converts a UMLS::Association co-occurrence database to a sparse format co-occurrence matrix used for assocLBD
+dbToTab.pl    	     	      	     -- converts a UMLS::Association co-occurrence database to a sparse format co-occurrence matrix used for ALBD
 
 removeQuotes.pl			     -- removes quotes from lines in the co-occurrence matrix file after converting from a database (sometimes needed)    
 
@@ -149,7 +149,7 @@ removeQuotes.pl			     -- removes quotes from lines in the co-occurrence matrix 
 
 =head2 CONTACT US
 
-If you have any trouble installing and using assocLBD, please
+If you have any trouble installing and using ALBD, please
 contact us directly if you prefer :
 
     Sam Henry: henryst at vcu.edu

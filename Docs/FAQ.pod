@@ -4,7 +4,7 @@ FAQ.pod
 
 =head1 SYNOPSIS
 
-Listing the frequently asked questions about the assocLBD package.
+Listing the frequently asked questions about the ALBD package.
 
 =head1 DESCRIPTION
 

@@ -3,7 +3,7 @@
 
 # run a sample lbd using the parameters in the lbd configuration file
 print "\n           OPEN DISCOVERY          \n";
-`runDiscovery.pl lbdConfig`;
+`perl ../utils/runDiscovery.pl lbdConfig`;
 print "LBD Open discovery results output to sampleOutput\n\n";
 
 # run a sample time slicing
@@ -19,5 +19,5 @@ print "LBD Open discovery results output to sampleOutput\n\n";
 
 # next, run time slicing 
 print "          TIME SLICING          \n";
-`runDiscovery.pl timeSlicingConfig > sampleTimeSliceOutput`;
+`perl ../utils/runDiscovery.pl timeSlicingConfig > sampleTimeSliceOutput`;
 print "LBD Time Slicing results output to sampleTimeSliceOutput\n";

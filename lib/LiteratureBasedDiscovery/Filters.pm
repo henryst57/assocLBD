@@ -1,4 +1,4 @@
-# assocLBD::Filters
+# ALBD::Filters
 #
 # Perl module for applying Literature Based Discovery filters
 #

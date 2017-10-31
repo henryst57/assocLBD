@@ -22,5 +22,5 @@
 <explicitInputFile>/home/henryst/lbdData/groupedData/reg/1985_1999_window8_noOrder
 
 <postCutoffFile>/home/henryst/lbdData/groupedData/reg/2000_2015_window8_noOrder
-<goldOutputFile>/home/henryst/lbdData/goldMatrix_1985_1999
+<goldInputFile>/home/henryst/lbdData/goldMatrix
 <predictionsOutFile>/home/henryst/lbdData/predictions_1985_1999

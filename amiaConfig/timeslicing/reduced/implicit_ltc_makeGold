@@ -1,4 +1,4 @@
--##############################################################################
+##############################################################################
 #            Configuration File for Literature Based Discovery
 ##############################################################################
 # All the options in this file are parsed and used as parameters for
@@ -12,14 +12,16 @@
 
 <precisionAndRecall_implicit>
 <rankingProcedure>linkingTermCount
+<rankingMeasure>ll
 
-<startAcceptTypes>dsyn
+
 <linkingAcceptGroups>CHEM,DISO,GENE,PHYS,ANAT
 <targetAcceptGroups>CHEM,GENE
 
 <cuiListFileName>/home/henryst/lbdData/timeSliceCuiList
-<explicitInputFile>/home/henryst/lbdData/groupedData/reg/1999_1999_window8_noOrder
+<explicitInputFile>/home/henryst/lbdData/groupedData/reg/1975_1999_window8_noOrder
 
 <postCutoffFile>/home/henryst/lbdData/groupedData/reg/2000_2015_window8_noOrder
-<goldOutputFile>/home/henryst/lbdData/goldMatrix_1999_1999
-<predictionsOutFile>/home/henryst/lbdData/predictions_1999_1999
+<goldOutputFile>/home/henryst/lbdData/goldMatrix
+<predictionsOutFile>/home/henryst/lbdData/predictions_1975_1999
+

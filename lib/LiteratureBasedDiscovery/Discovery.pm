@@ -1,4 +1,4 @@
-# assocLBD::Disovery
+# ALBD::Disovery
 #
 # Perl module for performing Literature Based Discovery based using
 # CUI associations as the primary linking and ranking method.

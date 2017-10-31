@@ -1,8 +1,8 @@
 NAME
-    assocLBD Installation Guide
+    ALBD Installation Guide
 
 TESTING PLATFORMS
-    assocLBD has been developed and tested on Linux primarily using Perl.
+    ALBD has been developed and tested on Linux primarily using Perl.
 
 SYNOPSIS
      perl Makefile.PL
@@ -14,12 +14,12 @@ SYNOPSIS
      make install
 
 DESCRIPTION
-    assocLBD provides a system for performing ABC co-occurrence literature
-    based discovery using a variety of options, and association-based
-    ranking methods
+    ALBD provides a system for performing ABC co-occurrence literature based
+    discovery using a variety of options, and association-based ranking
+    methods
 
 REQUIREMENTS
-    assocLBD REQUIRES that the following software packages and data:
+    ALBD REQUIRES that the following software packages and data:
 
   Programming Languages
          Perl (version 5.16.3 or better)
@@ -37,7 +37,7 @@ INSTALLATION STAGES
     Stage 1: Install Programming Languages If already installed you need at
     minimum: - Perl version 5.16.3 or better
     Stage 2: Install CPAN Modules
-    Stage 3: Install assocLBD
+    Stage 3: Install ALBD
     Stage 4: Create an co-occurrence matrix
 
   Stage 1: Install Programming Languages, if already installed go to Stage 2
@@ -68,7 +68,7 @@ INSTALLATION STAGES
 
         <http://search.cpan.org/dist/UMLS-Association/>
 
-  Stage 3: Install assocLBD package
+  Stage 3: Install ALBD package
     The usual way to install the package is to run the following commands:
 
         perl Makefile.PL
@@ -135,10 +135,10 @@ INSTALLATION STAGES
         <http://search.cpan.org/dist/Test-Simple/lib/Test/Builder.pm#EXIT_CODES>
 
   Stage 4: Create an co-occurrence matrix
-    assocLBD requires that a co-occurrence matrix of CUIs has been created.
-    This matrix is stored as a flat file, in a sparse matrix format such
-    that each line contains three tab seperated values, cui_1, cui_2, n_11 =
-    the count of their co-occurrences. Any matrix with that format is
+    ALBD requires that a co-occurrence matrix of CUIs has been created. This
+    matrix is stored as a flat file, in a sparse matrix format such that
+    each line contains three tab seperated values, cui_1, cui_2, n_11 = the
+    count of their co-occurrences. Any matrix with that format is
     acceptable, however the intended method of matrix generation is to
     convert a UMLS::Association database into a flat matrix file. These
     databases are created using the CUICollector tool of UMLS::Association,
@@ -156,12 +156,12 @@ INSTALLATION STAGES
 
   Stage 5: Set up Dummy UMLS::Association Database
     UMLS::Association requires that a database can be connected to that is
-    in the correct format. Although this database is not required for
-    assocLBD (since co-occurrence data is loaded from a co-occurrence
-    matrix), it is required to run UMLS:Association. If you ran
-    UMLS::Association to generate a co-occurrence matrix, you should be
-    fine. Otherwise you will need to create a dummy database that it can
-    connect to. This can be done in a few steps:
+    in the correct format. Although this database is not required for ALBD
+    (since co-occurrence data is loaded from a co-occurrence matrix), it is
+    required to run UMLS:Association. If you ran UMLS::Association to
+    generate a co-occurrence matrix, you should be fine. Otherwise you will
+    need to create a dummy database that it can connect to. This can be done
+    in a few steps:
 
     1) open mysql type mysql at the terminal
 
@@ -170,8 +170,8 @@ INSTALLATION STAGES
     cui_2 CHAR(10), n_11 BIGINT(20));
 
 CONTACT US
-    If you have any trouble installing and using assocLBD, please contact us
-    us directly :
+    If you have any trouble installing and using ALBD, please contact us us
+    directly :
 
         Sam Henry: henryst at vcu.edu
 

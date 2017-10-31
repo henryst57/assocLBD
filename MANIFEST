@@ -17,13 +17,13 @@ lib/LiteratureBasedDiscovery/Evaluation.pm
 lib/LiteratureBasedDiscovery/Filters.pm
 lib/LiteratureBasedDiscovery/Rank.pm
 lib/LiteratureBasedDiscovery/TimeSlicing.pm
-samples/lbd
+samples/lbdConfig
 samples/postCutoffMatrix
 samples/runSample.pl
 samples/sampleExplicitMatrix
 samples/sampleGoldMatrix
 samples/timeSliceCuiList
-samples/timeSlicing
+samples/timeSlicingConfig
 samples/configFileSamples/UMLSAssociationConfig
 samples/configFileSamples/UMLSInterfaceConfig
 samples/configFileSamples/UMLSInterfaceInternalConfig

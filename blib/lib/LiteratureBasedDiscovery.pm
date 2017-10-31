@@ -1,4 +1,4 @@
-# assocLBD::LiteratureBasedDiscovery
+# ALBD::LiteratureBasedDiscovery
 #
 # Primary module
 # This module contains only the top level functions. So a step by step methods
@@ -29,11 +29,11 @@
 
 =head1 NAME
 
-assocLBD - a perl implementation of Literature Based Discovery
+ALBD - a perl implementation of Literature Based Discovery
 
 =head1 SYNOPSIS
     
-    use assocLBD;
+    use ALBD;
     %options = ();
     $options{'lbdConfig'} = 'configFile'
     my $lbd = LiteratureBasedDiscovery->new(\%options);
@@ -44,7 +44,7 @@ assocLBD - a perl implementation of Literature Based Discovery
       This package consists of Perl modules along with supporting Perl
       programs that perform Literature Based Discovery (LBD). The core 
       data from which LBD is performed are co-occurrences matrices 
-      generated from UMLS::Association. assocLBD is based on the ABC
+      generated from UMLS::Association. ALBD is based on the ABC
       co-occurrence model. Many options can be specified, and many
       ranking methods are available. The novel ranking methods that use
       association measure are available as well as frequency based

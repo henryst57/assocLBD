@@ -1,8 +1,8 @@
 use strict;
 use warnings;
 
-#TODO -  modify this to be the library where you have the assocLBD package
-use lib '/home/share/packages/assoc_lbd/lib/';
+#TODO -  modify this to be the library where you have the ALBD package
+use lib '/home/share/packages/ALBD/lib/';
 use LiteratureBasedDiscovery::Discovery;
 use LiteratureBasedDiscovery::TimeSlicing;
 

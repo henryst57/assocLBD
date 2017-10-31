@@ -1,10 +1,10 @@
 =head1 NAME
 
-assocLBD Installation Guide
+ALBD Installation Guide
 
 =head1 TESTING PLATFORMS
 
-assocLBD has been developed and tested on Linux primarily using Perl.
+ALBD has been developed and tested on Linux primarily using Perl.
 
 =head1 SYNOPSIS
 
@@ -18,11 +18,11 @@ assocLBD has been developed and tested on Linux primarily using Perl.
 
 =head1 DESCRIPTION
 
-assocLBD provides a system for performing ABC co-occurrence literature based discovery using a variety of options, and association-based ranking methods
+ALBD provides a system for performing ABC co-occurrence literature based discovery using a variety of options, and association-based ranking methods
 
 =head1 REQUIREMENTS
 
-assocLBD REQUIRES that the following software packages and data:
+ALBD REQUIRES that the following software packages and data:
 
 =head2 Programming Languages
 
@@ -50,7 +50,7 @@ assocLBD REQUIRES that the following software packages and data:
 
 =item Stage 2: Install CPAN Modules
 
-=item Stage 3: Install assocLBD
+=item Stage 3: Install ALBD
 
 =item Stage 4: Create an co-occurrence matrix
 
@@ -83,7 +83,7 @@ The package is freely available at:
 
     <http://search.cpan.org/dist/UMLS-Association/>
 
-=head2 Stage 3: Install assocLBD package
+=head2 Stage 3: Install ALBD package
 
 The usual way to install the package is to run the following commands:
 
@@ -129,13 +129,13 @@ NOTE: If one (or more) of the tests run by 'make test' fails, you will see a sum
 
 =head2 Stage 4: Create an co-occurrence matrix
 
-assocLBD requires that a co-occurrence matrix of CUIs has been created. This matrix is stored as a flat file, in a sparse matrix format such that each line contains three tab seperated values, cui_1, cui_2, n_11 = the  count of their co-occurrences. Any matrix with that format is acceptable, however the intended method of matrix generation is to convert a UMLS::Association database into a flat matrix file. These databases are created using the CUICollector tool of UMLS::Association, and are run over the MetaMapped Medline baseline. With that file, run  utils/datasetCreator/fromMySQL/dbToTab.pl to convert the desired database into a matrix file. Notice that code in dbToTab.pl is just a sample mysql command. If the input database is created in another method, a different  command may be needed. As long as the resulting co-occurrence matrix is in the correct format LBD may be run on it. This allows flexibility in where co-occurrence information comes from.
+ALBD requires that a co-occurrence matrix of CUIs has been created. This matrix is stored as a flat file, in a sparse matrix format such that each line contains three tab seperated values, cui_1, cui_2, n_11 = the  count of their co-occurrences. Any matrix with that format is acceptable, however the intended method of matrix generation is to convert a UMLS::Association database into a flat matrix file. These databases are created using the CUICollector tool of UMLS::Association, and are run over the MetaMapped Medline baseline. With that file, run  utils/datasetCreator/fromMySQL/dbToTab.pl to convert the desired database into a matrix file. Notice that code in dbToTab.pl is just a sample mysql command. If the input database is created in another method, a different  command may be needed. As long as the resulting co-occurrence matrix is in the correct format LBD may be run on it. This allows flexibility in where co-occurrence information comes from.
 
 Note: utils/datasetCreator/fromMySQL/removeQuotes.pl may need to be run on the resulting tab seperated file, if quotes are inlcuded in the resulting co-ocurrence matrix file.
 
 =head2 Stage 5: Set up Dummy UMLS::Association Database
 
-UMLS::Association requires that a database can be connected to that is in the correct format. Although this database is not required for assocLBD (since co-occurrence data is loaded from a co-occurrence matrix), it is required to run UMLS:Association. If you ran UMLS::Association to generate a co-occurrence matrix, you should be fine. Otherwise you will need to create a dummy database that it can connect to. This can be done in a few steps:
+UMLS::Association requires that a database can be connected to that is in the correct format. Although this database is not required for ALBD (since co-occurrence data is loaded from a co-occurrence matrix), it is required to run UMLS:Association. If you ran UMLS::Association to generate a co-occurrence matrix, you should be fine. Otherwise you will need to create a dummy database that it can connect to. This can be done in a few steps:
 
 1) open mysql
      type mysql at the terminal
@@ -147,7 +147,7 @@ UMLS::Association requires that a database can be connected to that is in the co
 
 =head1 CONTACT US
 
-If you have any trouble installing and using assocLBD, please contact us us directly :
+If you have any trouble installing and using ALBD, please contact us us directly :
 
     Sam Henry: henryst at vcu.edu
 

@@ -74,7 +74,7 @@ A file containing the results of LBD
 
 =head1 CONTACT US
    
-  If you have any trouble installing and using assocLBD, 
+  If you have any trouble installing and using ALBD, 
   You may contact us directly :
     
       Sam Henry: henryst at vcu.edu 

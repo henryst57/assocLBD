@@ -1,4 +1,4 @@
-# assocLBD::Evaluation.pm
+# ALBD::Evaluation.pm
 #
 # Provides functionality to evaluate LBD systems
 # Key components are:

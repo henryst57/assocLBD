@@ -4,9 +4,6 @@
 
 #use Getopt::Long;
 
-#use lib '/home/share/packages/assoc_lbd/lib/'; #TODO delete this once installed
-#use LiteratureBasedDiscovery::Discovery;
-
 my $DEBUG = 0;
 my $HELP = '';
 my %options = ();

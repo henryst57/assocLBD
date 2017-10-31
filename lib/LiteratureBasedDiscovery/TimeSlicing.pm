@@ -1,4 +1,4 @@
-# assocLBD::TimeSlicing
+# ALBD::TimeSlicing
 #
 # Library module of time slicing methods for LBD
 #
@@ -28,7 +28,6 @@ package TimeSlicing;
 use strict;
 use warnings;
 
-use lib '/home/share/packages/assoc_lbd/lib/';
 use LiteratureBasedDiscovery::Discovery;
 
 
@@ -530,7 +529,7 @@ sub calculatePrecisionAndRecall_implicit {
 	my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
 	
 	#get the number of predicted discoveries and true discoveries
-	my $numPredictions = scalar keys %{$rankedPredictionsRef};
+	my $numPredictions = scalar @{$rankedPredictionsRef};
 	my $numTrue = scalar keys %{$trueRef};
 
 	#skip if there are NO new discoveries for this start term

@@ -1,6 +1,6 @@
 =head1 NAME
 
-assocLBD CHANGES
+ALBD CHANGES
 
 =head2 Changes from version 0.00 to 0.01
 

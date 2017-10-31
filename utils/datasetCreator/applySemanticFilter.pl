@@ -16,7 +16,7 @@ my $matrixFileName = '/home/henryst/lbdData/groupedData/1975_1999_window8_noOrde
 my $outputFileName = $matrixFileName.'_filtered';
 my $acceptTypesString = ''; #leave blank if none are applied
 my $acceptGroupsString = 'CHEM,DISO,GENE,PHYS,ANAT'; #for the explicit matrix
-my $interfaceConfig = '/home/share/packages/assoc_lbd/config/interface';
+my $interfaceConfig = '/home/share/packages/ALBD/config/interface';
 
 #apply the filter to rows and columns or columns only
 # apply to just columns generally for the implicit matrix
