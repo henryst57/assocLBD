@@ -145,7 +145,7 @@ use UMLS::Interface;
 
 #### UPDATE VERSION HERE #######
 use vars qw($VERSION);
-$VERSION = 0.01;
+$VERSION = 0.03;
 
 #global variables
 my $DEBUG = 0;
