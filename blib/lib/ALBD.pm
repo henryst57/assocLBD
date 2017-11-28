@@ -1,4 +1,4 @@
-# ALBD::LiteratureBasedDiscovery
+# ALBD::ALBD
 #
 # Primary module
 # This module contains only the top level functions. So a step by step methods
@@ -129,7 +129,7 @@ samples folder for info and sample configuration files.
 #                   connections) for every CUI in the datast
 
 
-package LiteratureBasedDiscovery;
+package ALBD;
 
 use strict;
 use warnings;

@@ -11,7 +11,7 @@ config/association
 config/interface
 config/interfaceConfig
 config/lbd
-lib/LiteratureBasedDiscovery.pm
+lib/ALBD.pm
 lib/LiteratureBasedDiscovery/Discovery.pm
 lib/LiteratureBasedDiscovery/Evaluation.pm
 lib/LiteratureBasedDiscovery/Filters.pm

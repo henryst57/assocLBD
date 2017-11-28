@@ -53,16 +53,16 @@ sub outputTimeSlicingResults {
 #------------------------------------------
 
  #calculate precision and recall
-    print STDERR "calculating precision and recall\n";
+    print "calculating precision and recall\n";
     my ($precisionRef, $recallRef) = &calculatePrecisionAndRecall_implicit(
 	 $goldMatrixRef, $rowRanksRef, $numIntervals);
 
     #output precision and recall
-    print STDERR "----- average precision at 10% recall intervals (i recall precision) ----> \n";
+    print "----- average precision at 10% recall intervals (i recall precision) ----> \n";
     foreach my $i (sort {$a <=> $b} keys %{$precisionRef}) {
-	print STDERR "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
+	print "      $i ${$recallRef}{$i} ${$precisionRef}{$i}\n";
     }
-    print STDERR "\n";
+    print "\n";
     
 #-------------------------------------------
     
@@ -70,33 +70,33 @@ sub outputTimeSlicingResults {
     my $map = &calculateMeanAveragePrecision(
 	$goldMatrixRef, $rowRanksRef);
     #output mean average precision
-    print STDERR "---------- mean average precision ---------------> \n";
-    print STDERR "      MAP = $map\n";
-    print STDERR "\n";
+    print "---------- mean average precision ---------------> \n";
+    print "      MAP = $map\n";
+    print "\n";
 
 #-------------------------------------------
     
     #calculate precision at k
-    print STDERR "calculating precision at k\n";
+    print "calculating precision at k\n";
     my $precisionAtKRef = &calculatePrecisionAtK($goldMatrixRef, $rowRanksRef);
     #output precision at k
-    print STDERR "---------- mean precision at k intervals ---------------> \n";
+    print "---------- mean precision at k intervals ---------------> \n";
     foreach my $k (sort {$a <=> $b} keys %{$precisionAtKRef}) {
-	print STDERR "      $k ${$precisionAtKRef}{$k}\n";
+	print "      $k ${$precisionAtKRef}{$k}\n";
     }
-    print STDERR "\n";
+    print "\n";
 
 #-------------------------------------------
     
     #calculate cooccurrences at k
-    print STDERR "calculating mean cooccurrences at k\n";
+    print "calculating mean cooccurrences at k\n";
     my $cooccurrencesAtKRef = &calculateMeanCooccurrencesAtK($goldMatrixRef, $rowRanksRef);
     #output cooccurrences at k
-    print STDERR "---------- mean cooccurrences at k intervals ---------------> \n";
+    print "---------- mean cooccurrences at k intervals ---------------> \n";
     foreach my $k (sort {$a <=> $b} keys %{$cooccurrencesAtKRef}) {
-	print STDERR "      $k ${$cooccurrencesAtKRef}{$k}\n";
+	print "      $k ${$cooccurrencesAtKRef}{$k}\n";
     }
-    print STDERR "\n";
+    print "\n";
 
 }
 

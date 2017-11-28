@@ -7,3 +7,6 @@ NAME
   Changes from version 0.01 to 0.03
     CPAN problems, so rereleased. No major changes
 
+  Changes from version 0.01 to 0.05
+    CPAN problems, so changed LiteratureBasedDiscovery.pm to ALBD.pm
+

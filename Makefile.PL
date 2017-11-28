@@ -12,12 +12,12 @@ my $author1 = 'Sam Henry <henryst@vcu.edu>';
 # the contents of the Makefile that is written.
 WriteMakefile(
               'NAME'		  => 'ALBD',
-              'VERSION_FROM' => 'lib/LiteratureBasedDiscovery.pm',
+              'VERSION_FROM' => 'lib/ALBD.pm',
               'PREREQ_PM'      => { 'UMLS::Interface' => '0', 
                                       'UMLS::Association' => '0'},
               'EXE_FILES'         => [("utils/runDiscovery.pl")], 
               'dist'              => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'},
     ($] >= 5.005 ?
-     ('ABSTRACT_FROM'   => 'lib/LiteratureBasedDiscovery.pm', # retrieve abstract from module
+     ('ABSTRACT_FROM'   => 'lib/ALBD.pm', # retrieve abstract from module
       'AUTHOR'          => "$author1") : ()));
 

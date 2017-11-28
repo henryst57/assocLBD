@@ -9,3 +9,7 @@ First Release, leaving here to show how change log should be updated
 =head2 Changes from version 0.01 to 0.03
 
 CPAN problems, so rereleased. No major changes
+
+=head2 Changes from version 0.01 to 0.05
+
+CPAN problems, so changed LiteratureBasedDiscovery.pm to ALBD.pm
