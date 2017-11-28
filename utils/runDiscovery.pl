@@ -113,7 +113,7 @@ use strict;
 use warnings;
 
 use Getopt::Long;
-use LiteratureBasedDiscovery;
+use ALBD;
 
 ###############################################################################
 # CONSTANT STRINGS
@@ -154,7 +154,7 @@ GetOptions( 'debug'             => \$DEBUG,
  
 #Check for version or help
 if ($VERSION) {
-    print "current version is ".(LiteratureBasedDiscovery->version())."\n";
+    print "current version is ".(ALBD->version())."\n";
     exit;
 }     
 if ($HELP) {
@@ -170,7 +170,7 @@ if ($HELP) {
 $options{'lbdConfig'} = shift;
 defined $options{'lbdConfig'} or die ($usage);
 
-my $lbd = LiteratureBasedDiscovery->new(\%options);
+my $lbd = ALBD->new(\%options);
 $lbd->performLBD();
 
 ############################################################################
