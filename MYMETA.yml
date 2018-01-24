@@ -20,4 +20,4 @@ no_index:
 requires:
   UMLS::Association: 0
   UMLS::Interface: 0
-version: 0.03
+version: 0.05

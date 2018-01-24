@@ -20,7 +20,7 @@
 #     PREREQ_PM => { UMLS::Interface=>q[0], UMLS::Association=>q[0] }
 #     TEST_REQUIRES => {  }
 #     VERSION_FROM => q[lib/ALBD.pm]
-#     dist => { COMPRESS=>q[gzip -9f], SUFFIX=>q[gz] }
+#     dist => { SUFFIX=>q[gz], COMPRESS=>q[gzip -9f] }
 
 # --- MakeMaker post_initialize section:
 
@@ -59,11 +59,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = ALBD
 NAME_SYM = ALBD
-VERSION = 0.03
+VERSION = 0.05
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_03
+VERSION_SYM = 0_05
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.03
+XS_VERSION = 0.05
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -192,18 +192,18 @@ TO_INST_PM = lib/ALBD.pm \
 	lib/LiteratureBasedDiscovery/Rank.pm \
 	lib/LiteratureBasedDiscovery/TimeSlicing.pm
 
-PM_TO_BLIB = lib/LiteratureBasedDiscovery/Rank.pm \
-	blib/lib/LiteratureBasedDiscovery/Rank.pm \
-	lib/LiteratureBasedDiscovery/TimeSlicing.pm \
+PM_TO_BLIB = lib/LiteratureBasedDiscovery/TimeSlicing.pm \
 	blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm \
+	lib/LiteratureBasedDiscovery/Rank.pm \
+	blib/lib/LiteratureBasedDiscovery/Rank.pm \
+	lib/ALBD.pm \
+	blib/lib/ALBD.pm \
 	lib/LiteratureBasedDiscovery/Discovery.pm \
 	blib/lib/LiteratureBasedDiscovery/Discovery.pm \
-	lib/LiteratureBasedDiscovery/Filters.pm \
-	blib/lib/LiteratureBasedDiscovery/Filters.pm \
 	lib/LiteratureBasedDiscovery/Evaluation.pm \
 	blib/lib/LiteratureBasedDiscovery/Evaluation.pm \
-	lib/ALBD.pm \
-	blib/lib/ALBD.pm
+	lib/LiteratureBasedDiscovery/Filters.pm \
+	blib/lib/LiteratureBasedDiscovery/Filters.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -272,7 +272,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = ALBD
-DISTVNAME = ALBD-0.03
+DISTVNAME = ALBD-0.05
 
 
 # --- MakeMaker macro section:
@@ -474,22 +474,22 @@ clean_subdirs :
 
 clean :: clean_subdirs
 	- $(RM_F) \
-	  perl core.[0-9] \
+	  blibdirs.ts pm_to_blib.ts \
+	  $(BASEEXT).bso so_locations \
+	  $(BOOTSTRAP) core.[0-9][0-9][0-9][0-9] \
+	  perl$(EXE_EXT) mon.out \
+	  *$(LIB_EXT) perl.exe \
 	  core.[0-9][0-9][0-9] core.[0-9][0-9] \
-	  perl$(EXE_EXT) perl.exe \
-	  core.[0-9][0-9][0-9][0-9] lib$(BASEEXT).def \
-	  $(BOOTSTRAP) core.[0-9][0-9][0-9][0-9][0-9] \
-	  $(MAKE_APERL_FILE) *$(OBJ_EXT) \
-	  MYMETA.json $(BASEEXT).bso \
-	  *$(LIB_EXT) $(INST_ARCHAUTODIR)/extralibs.all \
-	  blibdirs.ts $(BASEEXT).x \
+	  *$(OBJ_EXT) core \
+	  core.*perl.*.? $(BASEEXT).x \
+	  pm_to_blib $(BASEEXT).exp \
 	  $(INST_ARCHAUTODIR)/extralibs.ld perlmain.c \
-	  tmon.out core.*perl.*.? \
-	  pm_to_blib.ts so_locations \
-	  $(BASEEXT).exp $(BASEEXT).def \
-	  pm_to_blib core \
-	  mon.out MYMETA.yml \
-	  *perl.core 
+	  $(INST_ARCHAUTODIR)/extralibs.all *perl.core \
+	  MYMETA.yml $(BASEEXT).def \
+	  $(MAKE_APERL_FILE) core.[0-9] \
+	  tmon.out core.[0-9][0-9][0-9][0-9][0-9] \
+	  MYMETA.json lib$(BASEEXT).def \
+	  perl 
 	- $(RM_RF) \
 	  blib 
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
@@ -534,7 +534,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
 	$(NOECHO) $(ECHO) '  UMLS::Association: 0' >> META_new.yml
 	$(NOECHO) $(ECHO) '  UMLS::Interface: 0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version: 0.03' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version: 0.05' >> META_new.yml
 	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
 	$(NOECHO) $(ECHO) Generating META.json
 	$(NOECHO) $(ECHO) '{' > META_new.json
@@ -577,7 +577,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '      }' >> META_new.json
 	$(NOECHO) $(ECHO) '   },' >> META_new.json
 	$(NOECHO) $(ECHO) '   "release_status" : "stable",' >> META_new.json
-	$(NOECHO) $(ECHO) '   "version" : 0.03' >> META_new.json
+	$(NOECHO) $(ECHO) '   "version" : 0.05' >> META_new.json
 	$(NOECHO) $(ECHO) '}' >> META_new.json
 	-$(NOECHO) $(MV) META_new.json $(DISTVNAME)/META.json
 
@@ -866,12 +866,12 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/LiteratureBasedDiscovery/Rank.pm blib/lib/LiteratureBasedDiscovery/Rank.pm \
 	  lib/LiteratureBasedDiscovery/TimeSlicing.pm blib/lib/LiteratureBasedDiscovery/TimeSlicing.pm \
+	  lib/LiteratureBasedDiscovery/Rank.pm blib/lib/LiteratureBasedDiscovery/Rank.pm \
+	  lib/ALBD.pm blib/lib/ALBD.pm \
 	  lib/LiteratureBasedDiscovery/Discovery.pm blib/lib/LiteratureBasedDiscovery/Discovery.pm \
-	  lib/LiteratureBasedDiscovery/Filters.pm blib/lib/LiteratureBasedDiscovery/Filters.pm \
 	  lib/LiteratureBasedDiscovery/Evaluation.pm blib/lib/LiteratureBasedDiscovery/Evaluation.pm \
-	  lib/ALBD.pm blib/lib/ALBD.pm 
+	  lib/LiteratureBasedDiscovery/Filters.pm blib/lib/LiteratureBasedDiscovery/Filters.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
