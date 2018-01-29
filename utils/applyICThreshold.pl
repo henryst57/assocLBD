@@ -62,6 +62,7 @@ print "   Applying a threshold of $options{threshold} to $options{termFile}\n";
 my @headerLines = ();
 my $position = 0;
 while (my $line = <TERM_IN>) {
+    #see if its a header line
     if ($line =~ /1\t\d+\.\d+\tC\d{7}\t/) {
 	last;
     }
