@@ -1,11 +1,11 @@
 #   applyICThreshold.pl
 #
-# thresholds the target term list by removing any terms with IC greater than the threshold provided. Uses the target term list, icpropogation file, and threshold provided as input
+# thresholds the target term list by removing any terms with IC less than the threshold provided. Uses the target term list, icpropogation file, and threshold provided as input
 # NOTE: any CUI that does not occur in the IC file will NOT be eliminated
 #
 # usage: perl applyICThreshold.pl -termFile=<termFile> -icFile=<icFile> -outputFile=<outputFile> -threshold=<threshold>
 #
-# example: perl applyICThreshold.pl -termFile=rayFish_ltc -icFile=icpropagation -outputFile=rayFish_ltc_ic3 -threshold=0.3
+# example: perl applyICThreshold.pl -termFile=../ic/rayFish_ltc -icFile=../ic/rayFish_ltc.sm.iic -outputFile=rayFish_ltc_ic3 -threshold=0.3
 #
 # Parameters:
 #   termFile = the target term file output by LBD that is being thresholded
@@ -74,7 +74,7 @@ while (my $line = <TERM_IN>) {
 #move the file handle back one line so you don't skip the first CUI line
 seek(TERM_IN, $position, 0);
 
-#read in the target term list as a hash: key is the CUI and value is the score
+#read in the target term list as a hash: key is the CUI and value is the rank
 # also read in each line for output later: key is CUI and value is line
 my %targetTermList = ();
 my %lines = ();
@@ -83,9 +83,10 @@ while (my $line = <TERM_IN>) {
     # line is rank\tscore\tCUI\tterms
     my @vals = split(/\t/,$line);
     (scalar @vals == 4) or die ("Formatting Error in TermFile: $line\n");
+    #vals = rank, score, cui, term
 
     #set hash to be the hash{CUI}=score
-    $targetTermList{$vals[2]} = $vals[1];
+    $targetTermList{$vals[2]} = $vals[0];
     $lines{$vals[2]} = $line;
 }
 close TERM_IN;
@@ -95,6 +96,7 @@ close TERM_IN;
 #### IC FILE
 print "   IC is coming from $options{icFile}\n";
 
+=comment     #reading co-occurrence based IC file
 #skip header info for IC file
 $position = 0;
 while (my $line = <IC_IN>) {
@@ -120,13 +122,65 @@ while (my $line = <IC_IN>) {
     #see if the CUI is one of the target terms
     if (exists $targetTermList{$vals[0]}) {
 	#the cui is a target term so see if it should be kept based on its IC
-	if ($vals[1] > $options{'threshold'}) {
+	if ($vals[1] < $options{'threshold'}) {
 	    delete $targetTermList{$vals[0]};
 	}
     }
 }
 close IC_IN;
+=cut
 
+#read intrinsic IC file
+#skip header info for IC file
+$position = 0;
+while (my $line = <IC_IN>) {
+    if ($line =~ /C\d{7}/) {
+	last;
+     }
+    #update current position of file handle
+    $position = tell(IC_IN);
+}
+#move the file handle back one line so you don't skip the first CUI line
+seek(IC_IN, $position, 0); 
+
+
+#get the information content for each target term from the ICfile
+# and if the IC is less than the threshold, remove it from the target
+# term list hash
+while (my $line = <IC_IN>) {
+    #read the line and get CUI and IC from it
+    # line is either just a CUI (no IC exists for it) or it is 
+    # the text: The intrinsic information content of  (<CUI>) is <value>
+
+    #grab the cui
+    $line =~ /(C\d{7})/;
+    my $cui = $1;
+
+    if (!$cui) {
+	print STDERR "Warning: error grabbing CUI from line: $line\n";
+	next;
+    }
+
+    #grab the value if it exists
+    my $value = -1;
+    if ($line =~ /The intrinsic information content of  \(C\d{7}\) is (\d+\.?\d*)/) {
+	$value = $1;
+    }
+    if ($value != -1) {
+	#print STDERR "$cui value = $value\n";
+    }
+    
+
+    #see if the CUI is one of the target terms
+    if (exists $targetTermList{$cui}) {
+	#the cui is a target term so see if it should be kept based on its IC
+	# if the CUI has no IC (vale = -1), then keep it
+	if ($value < $options{'threshold'} && $value != -1) {
+	    delete $targetTermList{$cui};
+	}
+    }
+}
+close IC_IN;
 
 
 #######################
@@ -140,10 +194,17 @@ foreach my $line(@headerLines) {
 }
 
 #output the target term list now that IC threshold has been applied
-# but be sure to output using descending score
-# TODO, always descending score?
-foreach my $key(sort { $targetTermList{$b} <=> $targetTermList{$a} } keys %targetTermList) {
-    print OUT $lines{$key};
+# but be sure to output using ascending rank
+# also put the new ranks, now that thresholds have been applied
+my $rank = 1;
+foreach my $key(sort { $targetTermList{$a} <=> $targetTermList{$b} } keys %targetTermList) {
+    #get values from the line
+    my @vals = split(/\t/,$lines{$key});
+    #vals = rank, score, cui, term
+    
+    #print out the line, but use the new rank
+    print OUT "$rank\t$vals[1]\t$vals[2]\t$vals[3]";
+    $rank++;
 }
 close OUT;
 
