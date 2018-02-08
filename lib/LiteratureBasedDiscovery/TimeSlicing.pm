@@ -118,9 +118,10 @@ sub loadCUIs {
 	chomp $line;
 	
 	#only add the line if it properly formatted
-	if ($line =~ /C\d{7}/) {
-	    $cuis{$line} = 1;
-	}
+	#  Added support for DUIs, C or D followed by 6
+	#if ($line =~ /C\d{7}/ || $line =~ /[CD]\d{6}/) {
+	$cuis{$line} = 1;
+	#}
     }
     close IN;
 
@@ -268,6 +269,9 @@ sub generateStartingMatrix {
     if (exists ${$lbdOptionsRef}{'cuiListFileName'}) {
 	#grab the rows defined by the cuiListFile
 	my $cuisRef = &loadCUIs(${$lbdOptionsRef}{'cuiListFileName'});
+
+	print STDERR "CUIS LOADED - ".(scalar keys %{$cuisRef})."\n";
+
 	foreach my $cui (keys %{$cuisRef}) {
 	    if(exists ${$explicitMatrixRef}{$cui}) {
 		$startingMatrix{$cui} = ${$explicitMatrixRef}{$cui};	
@@ -527,9 +531,6 @@ sub calculatePrecisionAndRecall_implicit {
     foreach my $rowKey (keys %{$trueMatrixRef}) {
 	my $trueRef = ${$trueMatrixRef}{$rowKey}; #a list of true discoveries
 	my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
-	
-	#get the number of predicted discoveries and true discoveries
-	print STDERR "rankedPredictionsRef = $rankedPredictionsRef\n";
 
 	my $numPredictions = scalar @{$rankedPredictionsRef};
 	my $numTrue = scalar keys %{$trueRef};
