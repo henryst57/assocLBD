@@ -1008,7 +1008,7 @@ sub _rankedTermsToString {
 	$string .= "${$ranksRef}[$i]\t";
 	#add the name
 	my $preferredTerm = $umls_interface->getAllPreferredTerm(${$ranksRef}[$i]);
-	$string .= "$name\n";
+	$string .= "$preferredTerm\n";
     }
 
     #return the string of ranked terms

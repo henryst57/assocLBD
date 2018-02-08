@@ -1007,16 +1007,8 @@ sub _rankedTermsToString {
 	#add the CUI
 	$string .= "${$ranksRef}[$i]\t";
 	#add the name
-	my $name = $umls_interface->getPreferredTerm(${$ranksRef}[$i]);
-	#if no preferred name, get anything
-	if (!defined $name || $name eq '') {
-	    my $termListRef = $umls_interface->getTermList('C0440102');
-	    if (scalar @{$termListRef} > 0) {
-		$name = '.**'.${$termListRef}[0];
-	    }
-	}
-
-	$string .= "$name\n";
+	my $preferredTerm = $umls_interface->getAllPreferredTerm(${$ranksRef}[$i]);
+	$string .= "$preferredTerm\n";
     }
 
     #return the string of ranked terms

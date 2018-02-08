@@ -529,6 +529,8 @@ sub calculatePrecisionAndRecall_implicit {
 	my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
 	
 	#get the number of predicted discoveries and true discoveries
+	print STDERR "rankedPredictionsRef = $rankedPredictionsRef\n";
+
 	my $numPredictions = scalar @{$rankedPredictionsRef};
 	my $numTrue = scalar keys %{$trueRef};
 
