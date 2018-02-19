@@ -119,9 +119,9 @@ sub loadCUIs {
 	
 	#only add the line if it properly formatted
 	#  Added support for DUIs, C or D followed by 6
-	if ($line =~ /C\d{7}/ || $line =~ /[CD]\d{6}/) {
-	    $cuis{$line} = 1;
-	}
+	#if ($line =~ /C\d{7}/ || $line =~ /[CD]\d{6}/) {
+	$cuis{$line} = 1;
+	#}
     }
     close IN;
 
@@ -269,9 +269,6 @@ sub generateStartingMatrix {
     if (exists ${$lbdOptionsRef}{'cuiListFileName'}) {
 	#grab the rows defined by the cuiListFile
 	my $cuisRef = &loadCUIs(${$lbdOptionsRef}{'cuiListFileName'});
-
-	print STDERR "CUIS LOADED - ".(scalar keys %{$cuisRef})."\n";
-
 	foreach my $cui (keys %{$cuisRef}) {
 	    if(exists ${$explicitMatrixRef}{$cui}) {
 		$startingMatrix{$cui} = ${$explicitMatrixRef}{$cui};	
@@ -528,13 +525,29 @@ sub calculatePrecisionAndRecall_implicit {
     #  take the sum of precisions, then average after the loop
     my %precision = ();
     my %recall = ();
-    foreach my $rowKey (keys %{$trueMatrixRef}) {
+    #foreach my $rowKey (keys %{$trueMatrixRef}) {  #TODO, this was the iterator for previuos results
+    foreach my $rowKey (keys %{$rowRanksRef}) { #TODO, but this seems to make more sense to me now #Row Key is a starting CUI
 	my $trueRef = ${$trueMatrixRef}{$rowKey}; #a list of true discoveries
 	my $rankedPredictionsRef = ${$rowRanksRef}{$rowKey}; #an array ref of ranked predictions
 
 	my $numPredictions = scalar @{$rankedPredictionsRef};
 	my $numTrue = scalar keys %{$trueRef};
 
+=comment
+	print STDERR "numPredictions = $numPredictions\n";
+	if ($numTrue > 0) {
+	    my $matches = 0;
+	    foreach my $prediction (@{$rankedPredictionsRef}) {
+		foreach my $true (%{$trueRef}) {
+		    if ($prediction eq $true) {
+			$matches ++;
+			last;
+		    }
+		}
+	    }
+	    print STDERR "NUM MATCHES = $matches\n";
+	}
+=cut
 	#skip if there are NO new discoveries for this start term
 	if ($numTrue == 0) {
 	    next;

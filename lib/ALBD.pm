@@ -609,7 +609,7 @@ sub timeSlicing_generatePrecisionAndRecall_explicit {
 # output: none, but precision, recall, precision at k, and map values
 #         output to STDOUT
 sub timeSlicing_generatePrecisionAndRecall_implicit {
-    my $NUM_SAMPLES = 200; #TODO, read fomr file number of samples to average over for timeslicing
+    my $NUM_SAMPLES = 100; #TODO, read fomr file number of samples to average over for timeslicing
     my $self = shift;
     my $start; #used to record run times
     print "In timeSlicing_generatePrecisionAndRecall_implicit\n";
@@ -636,10 +636,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	= TimeSlicing::generateStartingMatrix($explicitMatrixRef, \%lbdOptions, $startAcceptTypesRef, $NUM_SAMPLES, $umls_interface);
 #----------
     
-
-    print STDERR "size of startingMatrix = ".(scalar keys %{$startingMatrixRef})."\n";
-
-
 #--------
 # Gold Loading/Creation
 #--------
@@ -706,7 +702,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	$explicitMatrixRef = (); #clear (for memory)
 	$explicitMatrixRef = Discovery::fileToSparseMatrix($lbdOptions{'thresholdedMatrix'});
     }
-    print STDERR "size of explicit = ".(scalar keys %{$explicitMatrixRef})."\n";
     #else {#TODO apply a threshold}
     #NOTE, we must threshold the entire matrix because that is how we are calculating association scores
 
@@ -716,8 +711,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	Filters::semanticTypeFilter_rowsAndColumns(
 	    $explicitMatrixRef, $linkingAcceptTypesRef, $umls_interface);
     }
-
-    print STDERR "size of explicit = ".(scalar keys %{$explicitMatrixRef})."\n";
 
 #------------
 # Prediction Generation
@@ -736,16 +729,10 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	$predictionsMatrixRef = Discovery::findImplicit(
 	    $explicitMatrixRef, $startingMatrixRef);
 
-	print STDERR "size of predictions = ".(scalar keys %{$predictionsMatrixRef})."\n";
-      
-
 	#Remove Known Connections
 	print "Removing Known from Predictions\n";
 	$predictionsMatrixRef 
 	    = Discovery::removeExplicit($startingMatrixRef, $predictionsMatrixRef);
-
-	print STDERR "size of predictions = ".(scalar keys %{$predictionsMatrixRef})."\n";
-
 	#apply a semantic type filter to the predictions matrix
 	print "Applying Semantic Filter to Predictions\n";
 	if ((scalar keys %{$targetAcceptTypesRef}) > 0) {
@@ -758,8 +745,20 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	    print "outputting predictions\n";
 	    Discovery::outputMatrixToFile($lbdOptions{'predictionsOutFile'}, $predictionsMatrixRef);
 	}
-    }
 
+	#generate all vocabulary as a prediction
+	#TODO, delete this
+	my %allPredictions = ();
+	foreach my $rowKey (keys %{$predictionsMatrixRef}) {
+	    my %predictions = ();
+	    foreach my $explicitKey (keys %{$explicitMatrixRef}) {
+		$predictions{$explicitKey} = 1;
+	    }
+	    $allPredictions{$rowKey} = \%predictions;
+	}
+	$predictionsMatrixRef = \%allPredictions;
+    }
+ 
 #-------------------------------------------
 
     #At this point, the explicitMatrixRef has been filtered and thresholded
@@ -784,6 +783,7 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
 	$startingRow{$rowKey} = ${$startingMatrixRef}{$rowKey};
 	my %implicitRow = ();
 	$implicitRow{$rowKey} = ${$predictionsMatrixRef}{$rowKey};
+	
 
 	#Score Implicit Connections	
 	my $scoresRef;
@@ -823,7 +823,6 @@ sub timeSlicing_generatePrecisionAndRecall_implicit {
     }
 
     #output the results at 10 intervals
-    print STDERR "rowRanks = size of ".(scalar keys %rowRanks)."\n";
     TimeSlicing::outputTimeSlicingResults($goldMatrixRef, \%rowRanks, 10);
 }
 

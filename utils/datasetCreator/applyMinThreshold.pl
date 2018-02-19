@@ -2,10 +2,11 @@
 #copying the $inputFile to $outputFile, but ommitting lines that have less than
 #$minThreshold number of co-occurrences
 
-my $minThreshold = 5;
-my $inputFile = '/home/henryst/1975_2015_window8_noOrder_preThresh';
-my $outputFile = '/home/henryst/1975_2015_window8_noOrder_threshold'.$minThreshold;
+my $minThreshold = 1;
+my $inputFile = '/home/sam/data/lbdData/1975_1999_window8_ordered';
+my $outputFile = '/home/sam/data/lbdData/1975_1999_window8_ordered_threshold'.$minThreshold;
 &applyMinThreshold($minThreshold, $inputFile, $outputFile);
+
 
 
 ############

@@ -13,8 +13,9 @@
 <precisionAndRecall_implicit>
 #<rankingProcedure>ltcAssociation
 #<rankingMeasure>ll
-<rankingProcedure>ltc
+<rankingProcedure>linkingTermCount
 
-<cuiListFileName>/home/sam/data/cdrData/uniqueDUIs_explicitRelations_trainingAndDevelopmentSets_100
-<explicitInputFile>/home/sam/data/cdrData/explicitRelations_trainingAndDevelopmentSets_tab
-<goldInputFile>/home/sam/data/cdrData/implicitRelations_trainingAndDevelopmentSets_tab
+<cuiListFileName>/home/sam/data/cdrData/uniqueDUIs_explicitRelations_trainingAndDevelopmentSets
+#<cuiListFileName>/home/sam/data/cdrData/singleDUI
+<explicitInputFile>/home/sam/data/cdrData/explicitRelations_trainingAndDevelopmentSets_tab_noOrder
+<goldInputFile>/home/sam/data/cdrData/implicitRelations_trainingAndDevelopmentSets_tab_noOrder
