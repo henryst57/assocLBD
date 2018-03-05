@@ -323,13 +323,13 @@ sub score_cosineDistance {
 	#find the sum of A squared
 	my $aSum = 0;
 	foreach my $key (keys ${$aVectorRef}) {
-	    $aSum += ($key*$key);
+	    $aSum += (${$aVectorRef}{$key}*${$aVectorRef}{$key});
 	}
 
 	#find the sum of C squared
 	my $cSum = 0;
-	foreach my $key (keys ${$aVectorRef}) {
-	    $cSum += ($key*$key);
+	foreach my $key (keys ${$cVectorRef}) {
+	    $cSum += (${$cVectorRef}{$key}*${$cVectorRef}{$key});
 	}
 
 	#find the denominator, which is the product of A and C lengths
