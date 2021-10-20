@@ -1,0 +1,29 @@
+NAME
+    Todo List for CUICollectorMapReduce
+
+SYNOPSIS
+    Plans for future versions of CUICollectorMapReduce
+
+TO DO LIST
+    1. add n-gram collection as an option
+
+    2. add ability to input a list of files instead of a directory or one
+    file at a time
+
+AUTHORS
+    Bridget McInnes <btmcinnes at vcu.edu>
+
+    Amy Olex <alolex at vcu.edu>
+
+COPYRIGHT
+    Copyright (C) 2017 Bridget T. McInnes and Amy L. Olex
+
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2 or
+    any later version published by the Free Software Foundation; with no
+    Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+    Note: a copy of the GNU Free Documentation License is available on the
+    web at <http://www.gnu.org/copyleft/fdl.html> and is included in this
+    distribution as FDL.txt.
+
